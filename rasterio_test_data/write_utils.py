@@ -1,9 +1,14 @@
+from __future__ import annotations
+
 from pathlib import Path
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 import numpy as np
 import rasterio
 from rasterio.transform import from_origin
+
+if TYPE_CHECKING:
+    from affine import Affine
 
 
 def write_tiff(
@@ -24,6 +29,8 @@ def write_tiff(
         "LZMA",
     ]
     | None = None,
+    crs: str = "EPSG:4326",
+    transform: Affine = from_origin(0, 0, 0.01, 0.01),
     predictor: Literal[2, 3] | None = None,
     nodata: int | float | None = None,
 ):
@@ -46,8 +53,8 @@ def write_tiff(
         "height": height,
         "count": count,
         "dtype": data.dtype,
-        "crs": "EPSG:4326",
-        "transform": from_origin(0, 0, 1, 1),
+        "crs": crs,
+        "transform": transform,
         "tiled": blocksize is not None,
         "interleave": "pixel",  # explicit chunky
     }

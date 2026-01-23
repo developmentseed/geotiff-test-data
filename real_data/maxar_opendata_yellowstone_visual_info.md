@@ -50,7 +50,7 @@ Band 3
     ColorInterp: blue
 
 IFD
-    Id      Size           BlockSize     Decimation           
+    Id      Size           BlockSize     Decimation
     0       64x64          32x32         0
     1       32x32          128x128       2
 ```

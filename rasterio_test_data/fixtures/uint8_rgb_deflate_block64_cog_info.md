@@ -47,7 +47,7 @@ Band 3
     ColorInterp: undefined
 
 IFD
-    Id      Size           BlockSize     Decimation           
+    Id      Size           BlockSize     Decimation
     0       128x128        64x64         0
     1       64x64          64x64         2
 ```

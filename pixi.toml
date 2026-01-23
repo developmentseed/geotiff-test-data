@@ -8,6 +8,7 @@ version = "0.1.0"
 [tasks]
 generate = "python -m rasterio_test_data.cli"
 info = "bash scripts/info.sh"
+check = "bash scripts/check.sh"
 
 [dependencies]
 gdal = ">=3.12.1,<4"

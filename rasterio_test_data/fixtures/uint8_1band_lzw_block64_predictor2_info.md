@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: /Users/kyle/github/developmentseed/geotiff-test-data/rasterio_test_data/fixtures/uint8_1band_lzw_block64_predictor2.tif
+File: rasterio_test_data/fixtures/uint8_1band_lzw_block64_predictor2.tif
 COG: True
 Compression: LZW
 ColorSpace: None

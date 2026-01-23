@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: /Users/kyle/github/developmentseed/geotiff-test-data/real_data/maxar_opendata_yellowstone_visual.tif
+File: real_data/maxar_opendata_yellowstone_visual.tif
 COG: True
 Compression: JPEG
 ColorSpace: YCbCr

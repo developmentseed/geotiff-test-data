@@ -212,3 +212,6 @@ __marimo__/
 # pixi environments
 .pixi/*
 !.pixi/config.toml
+
+# Generated output
+output/*.tif

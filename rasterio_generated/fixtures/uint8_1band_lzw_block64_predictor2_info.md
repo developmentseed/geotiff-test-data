@@ -1,24 +1,24 @@
 ```
 Driver: GTiff
-File: /Users/kyle/github/developmentseed/geotiff-test-data/rasterio_test_data/fixtures/uint8_rgb_deflate_block64_cog.tif
+File: /Users/kyle/github/developmentseed/geotiff-test-data/rasterio_generated/fixtures/uint8_1band_lzw_block64_predictor2.tif
 COG: True
-Compression: DEFLATE
+Compression: LZW
 ColorSpace: None
 
 Profile
     Width:            128
     Height:           128
-    Bands:            3
+    Bands:            1
     Tiled:            True
     Dtype:            uint8
-    NoData:           None
+    NoData:           0.0
     Alpha Band:       False
     Internal Mask:    False
-    Interleave:       PIXEL
+    Interleave:       BAND
     ColorMap:         False
-    ColorInterp:      ('undefined', 'undefined', 'undefined')
-    Scales:           (1.0, 1.0, 1.0)
-    Offsets:          (0.0, 0.0, 0.0)
+    ColorInterp:      ('gray',)
+    Scales:           (1.0,)
+    Offsets:          (0.0,)
 
 Geo
     Crs:              EPSG:4326
@@ -33,18 +33,13 @@ Image Metadata
 
 Image Structure
     LAYOUT: COG
-    COMPRESSION: DEFLATE
-    INTERLEAVE: PIXEL
+    COMPRESSION: LZW
+    INTERLEAVE: BAND
     OVERVIEW_RESAMPLING: CUBIC
+    PREDICTOR: 2
 
 Band 1
-    ColorInterp: undefined
-
-Band 2
-    ColorInterp: undefined
-
-Band 3
-    ColorInterp: undefined
+    ColorInterp: gray
 
 IFD
     Id      Size           BlockSize     Decimation           

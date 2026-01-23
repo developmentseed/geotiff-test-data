@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: /Users/kyle/github/developmentseed/geotiff-test-data/real_data/maxar_opendata_yellowstone_visual.tif
+File: real_data/maxar_opendata_yellowstone_visual.tif
 COG: True
 Compression: JPEG
 ColorSpace: YCbCr
@@ -50,7 +50,7 @@ Band 3
     ColorInterp: blue
 
 IFD
-    Id      Size           BlockSize     Decimation           
+    Id      Size           BlockSize     Decimation
     0       64x64          32x32         0
     1       32x32          128x128       2
 ```

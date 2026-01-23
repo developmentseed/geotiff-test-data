@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: /Users/kyle/github/developmentseed/geotiff-test-data/rasterio_generated/fixtures/uint8_rgb_deflate_block64_cog.tif
+File: rasterio_generated/fixtures/uint8_rgb_deflate_block64_cog.tif
 COG: True
 Compression: DEFLATE
 ColorSpace: None
@@ -47,7 +47,7 @@ Band 3
     ColorInterp: undefined
 
 IFD
-    Id      Size           BlockSize     Decimation           
+    Id      Size           BlockSize     Decimation
     0       128x128        64x64         0
     1       64x64          64x64         2
 ```

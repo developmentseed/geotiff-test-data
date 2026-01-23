@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: /Users/kyle/github/developmentseed/geotiff-test-data/rasterio_generated/fixtures/uint8_1band_lzw_block64_predictor2.tif
+File: rasterio_generated/fixtures/uint8_1band_lzw_block64_predictor2.tif
 COG: True
 Compression: LZW
 ColorSpace: None
@@ -42,7 +42,7 @@ Band 1
     ColorInterp: gray
 
 IFD
-    Id      Size           BlockSize     Decimation           
+    Id      Size           BlockSize     Decimation
     0       128x128        64x64         0
     1       64x64          64x64         2
 ```

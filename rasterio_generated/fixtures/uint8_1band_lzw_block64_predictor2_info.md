@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: rasterio_test_data/fixtures/uint16_1band_lzw_block128_predictor2.tif
+File: rasterio_generated/fixtures/uint8_1band_lzw_block64_predictor2.tif
 COG: True
 Compression: LZW
 ColorSpace: None
@@ -10,8 +10,8 @@ Profile
     Height:           128
     Bands:            1
     Tiled:            True
-    Dtype:            uint16
-    NoData:           None
+    Dtype:            uint8
+    NoData:           0.0
     Alpha Band:       False
     Internal Mask:    False
     Interleave:       BAND
@@ -32,8 +32,10 @@ Image Metadata
     AREA_OR_POINT: Area
 
 Image Structure
+    LAYOUT: COG
     COMPRESSION: LZW
     INTERLEAVE: BAND
+    OVERVIEW_RESAMPLING: CUBIC
     PREDICTOR: 2
 
 Band 1
@@ -41,5 +43,6 @@ Band 1
 
 IFD
     Id      Size           BlockSize     Decimation
-    0       128x128        256x256       0
+    0       128x128        64x64         0
+    1       64x64          64x64         2
 ```

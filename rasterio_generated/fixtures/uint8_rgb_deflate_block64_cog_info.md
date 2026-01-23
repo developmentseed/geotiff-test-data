@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: rasterio_test_data/fixtures/uint8_rgb_deflate_block64_cog.tif
+File: rasterio_generated/fixtures/uint8_rgb_deflate_block64_cog.tif
 COG: True
 Compression: DEFLATE
 ColorSpace: None

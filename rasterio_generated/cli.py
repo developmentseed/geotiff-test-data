@@ -25,7 +25,7 @@ def main() -> None:
 
     for fixture_path in fixture_files:
         # Import the module
-        module_name = f"rasterio_test_data.fixtures.{fixture_path.stem}"
+        module_name = f"rasterio_generated.fixtures.{fixture_path.stem}"
         spec = importlib.util.spec_from_file_location(module_name, fixture_path)
         if spec is None or spec.loader is None:
             raise ImportError(f"Could not load {fixture_path}")

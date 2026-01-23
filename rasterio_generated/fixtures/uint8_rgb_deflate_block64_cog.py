@@ -2,7 +2,7 @@
 
 from pathlib import Path
 import numpy as np
-from rasterio_test_data.write_utils import write_tiff
+from rasterio_generated.write_utils import write_tiff
 
 
 def generate(output_path: Path) -> None:

@@ -1,22 +1,24 @@
 [workspace]
-authors = ["Kyle Barron <kyle@developmentseed.org>"]
+authors = ["Max Jones <14077947+maxrjones@users.noreply.github.com>"]
 channels = ["conda-forge"]
-name = "geotiff-test-data"
+name = "netcdf4-test-data"
 platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
 version = "0.1.0"
 
 [tasks]
-generate = "python -m rasterio_generated.cli"
+generate = "python -m netcdf4_generated.cli"
 info = "bash scripts/info.sh"
+catalog = "python scripts/catalog.py"
 check = "bash scripts/check.sh"
+upload = "bash scripts/upload.sh"
+test = "pytest tests/ -v"
 
 [dependencies]
-gdal = ">=3.12.1,<4"
+h5py = ">=3.11,<4"
+hdf5 = ">=1.14,<2"
 ipykernel = ">=7.1.0,<8"
 numpy = ">=2.4.1,<3"
 python = ">=3.12"
-rasterio = ">=1.5.0,<2"
-affine = ">=2.4.0,<3"
-
-[pypi-dependencies]
-rio-cogeo = ">=7.0.1, <8"
+xarray = ">=2025.09.0"
+h5netcdf = ">=1.4.0"
+pytest = ">=8.0.0"

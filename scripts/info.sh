@@ -1,14 +1,13 @@
 #!/bin/bash
-# Generate rio cogeo info markdown files for all TIFFs in the repo
+# Generate h5dump info markdown files for all NetCDF4 files in the data directory
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$REPO_DIR"
+DATA_DIR="$REPO_DIR/netcdf4_generated/data"
 
-for tif in $(find . -name "*.tif" -type f); do
-	md="${tif%.tif}_info.md"
+for nc in $(find "$DATA_DIR" -name "*.nc" -type f); do
+	md="${nc%.nc}_info.md"
 	echo '```' >"$md"
-	# Make File: path relative and strip trailing whitespace
-	rio cogeo info "$tif" | sed "s|^File: $REPO_DIR/|File: |" | sed 's/[[:space:]]*$//' >>"$md"
+	h5dump -H -p "$nc" >>"$md"
 	echo '```' >>"$md"
-	echo "✓ Generated: $(basename "$md")"
+	echo "Generated: $(basename "$md")"
 done

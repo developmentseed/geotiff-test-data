@@ -9,9 +9,12 @@ pixi run generate
 echo "Running info..."
 pixi run info
 
+echo "Running catalog..."
+pixi run catalog
+
 echo "Checking for uncommitted changes..."
 if [ -n "$(git status --porcelain)" ]; then
-    echo "ERROR: Generated files are out of date. Please run 'pixi run generate' and 'pixi run info' and commit the changes."
+    echo "ERROR: Generated files are out of date. Please run 'pixi run generate', 'pixi run info', and 'pixi run catalog' and commit the changes."
     git status
     git diff
     exit 1

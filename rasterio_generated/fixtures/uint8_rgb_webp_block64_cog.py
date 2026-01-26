@@ -1,7 +1,9 @@
 """Generate an RGB GeoTIFF with DEFLATE compression."""
 
 from pathlib import Path
+
 import numpy as np
+
 from rasterio_generated.write_utils import write_tiff
 
 
@@ -25,5 +27,6 @@ def generate(output_path: Path) -> None:
         data,
         driver="COG",
         blocksize=64,
+        photometric="RGB",
         compress="WEBP",
     )

@@ -16,7 +16,7 @@ Profile
     Internal Mask:    False
     Interleave:       PIXEL
     ColorMap:         False
-    ColorInterp:      ('undefined', 'undefined', 'undefined')
+    ColorInterp:      ('red', 'green', 'blue')
     Scales:           (1.0, 1.0, 1.0)
     Offsets:          (0.0, 0.0, 0.0)
 
@@ -40,13 +40,13 @@ Image Structure
     WEBP_LEVEL: 75
 
 Band 1
-    ColorInterp: undefined
+    ColorInterp: red
 
 Band 2
-    ColorInterp: undefined
+    ColorInterp: green
 
 Band 3
-    ColorInterp: undefined
+    ColorInterp: blue
 
 IFD
     Id      Size           BlockSize     Decimation

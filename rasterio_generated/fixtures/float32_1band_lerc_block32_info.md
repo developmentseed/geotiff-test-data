@@ -1,8 +1,8 @@
 ```
 Driver: GTiff
-File: rasterio_generated/fixtures/uint16_1band_lzw_block128_predictor2.tif
+File: rasterio_generated/fixtures/float32_1band_lerc_block32.tif
 COG: True
-Compression: LZW
+Compression: LERC
 ColorSpace: None
 
 Profile
@@ -10,7 +10,7 @@ Profile
     Height:           128
     Bands:            1
     Tiled:            True
-    Dtype:            uint16
+    Dtype:            float32
     NoData:           0.0
     Alpha Band:       False
     Internal Mask:    False
@@ -33,7 +33,8 @@ Image Metadata
 
 Image Structure
     LAYOUT: COG
-    COMPRESSION: LZW
+    COMPRESSION: LERC
+    LERC_VERSION: 2.4
     INTERLEAVE: BAND
 
 Band 1

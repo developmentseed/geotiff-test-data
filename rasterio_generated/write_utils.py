@@ -35,7 +35,7 @@ def write_cog(
     ]
     | None = None,
     crs: str | CRS = "EPSG:4326",
-    nodata_type: Literal["nodata", "mask", "alpha"] = "nodata",
+    nodata_type: Literal["nodata", "mask", "alpha"] | None = "nodata",
     transform: Affine = from_origin(0, 0, 0.01, 0.01),
     predictor: Literal[2, 3] | None = None,
     nodata: int | float | None = None,
@@ -109,7 +109,10 @@ def write_cog(
                 mem.colorinterp = ci
 
                 # Write Data
-                mem.write(data)
+                if nband == 1:
+                    mem.write(data, 1)
+                else:
+                    mem.write(data)
 
                 # Write Mask
                 if nodata_type == "mask" and mask is not None:

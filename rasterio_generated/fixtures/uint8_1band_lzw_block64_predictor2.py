@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from rasterio_generated.write_utils import write_tiff
+from rasterio_generated.write_utils import write_cog
 
 HERE = Path(__file__).parent
 
@@ -14,10 +14,9 @@ def generate(output_path: Path) -> None:
     data = np.arange(128, dtype=np.uint8).reshape(1, 128)
     data = np.repeat(data, 128, axis=0)
 
-    write_tiff(
+    write_cog(
         output_path,
         data,
-        driver="COG",
         blocksize=64,
         compress="LZW",
         predictor=2,

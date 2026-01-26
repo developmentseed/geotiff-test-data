@@ -11,12 +11,12 @@ Profile
     Bands:            3
     Tiled:            True
     Dtype:            uint8
-    NoData:           None
+    NoData:           0.0
     Alpha Band:       False
     Internal Mask:    False
     Interleave:       PIXEL
     ColorMap:         False
-    ColorInterp:      ('undefined', 'undefined', 'undefined')
+    ColorInterp:      ('red', 'green', 'blue')
     Scales:           (1.0, 1.0, 1.0)
     Offsets:          (0.0, 0.0, 0.0)
 
@@ -35,16 +35,15 @@ Image Structure
     LAYOUT: COG
     COMPRESSION: DEFLATE
     INTERLEAVE: PIXEL
-    OVERVIEW_RESAMPLING: CUBIC
 
 Band 1
-    ColorInterp: undefined
+    ColorInterp: red
 
 Band 2
-    ColorInterp: undefined
+    ColorInterp: green
 
 Band 3
-    ColorInterp: undefined
+    ColorInterp: blue
 
 IFD
     Id      Size           BlockSize     Decimation

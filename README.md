@@ -28,3 +28,9 @@ To add a new test case:
 2. Implement a `generate(output_path: Path)` function that creates the GeoTIFF
 
 Run `pixi run generate`.
+
+## Image Sources
+
+### Vantor (formerly Maxar)
+
+Some test images are copyright [Vantor](https://vantor.com/), provided under a [Creative Commons Attribution Non Commercial](https://spdx.org/licenses/CC-BY-NC-4.0.html) license via the [Maxar Open Data Program](https://registry.opendata.aws/maxar-open-data/).

@@ -34,6 +34,7 @@ def write_cog(
         "LZMA",
     ]
     | None = None,
+    interleave: Literal["pixel", "band", "tile"] = "pixel",
     crs: str | CRS = "EPSG:4326",
     nodata_type: Literal["nodata", "mask", "alpha"] | None = "nodata",
     transform: Affine = from_origin(0, 0, 0.01, 0.01),
@@ -125,7 +126,8 @@ def write_cog(
                 mem.build_overviews(overviews, Resampling.bilinear)
 
                 cog_profile = {
-                    "interleave": "pixel",
+                    "driver": "COG",
+                    "interleave": interleave,
                     "compress": "DEFLATE",
                     "tiled": True,
                     "blockxsize": blocksize,

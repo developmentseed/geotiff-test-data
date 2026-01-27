@@ -31,6 +31,4 @@ Run `pixi run generate`.
 
 ## Image Sources
 
-### Vantor (formerly Maxar)
-
-Some test images are copyright [Vantor](https://vantor.com/), provided under a [Creative Commons Attribution Non Commercial](https://spdx.org/licenses/CC-BY-NC-4.0.html) license via the [Maxar Open Data Program](https://registry.opendata.aws/maxar-open-data/).
+Images in the `real_data/` folder are sourced from various open data programs. See the individual README files in each subfolder for details.

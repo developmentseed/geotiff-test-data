@@ -43,7 +43,6 @@ Band 1
 
 IFD
     Id      Size           BlockSize     Decimation
-    0       128x128        32x32         0
-    1       64x64          128x128       2
-    2       32x32          128x128       4
+    0       128x128        64x64         0
+    1       64x64          64x64         2
 ```

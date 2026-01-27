@@ -62,6 +62,7 @@ def write_cog(
         nodata: The nodata value to use. Defaults to None.
         rasterio_env: Parameters to set in the rasterio.Env context. E.g. you may want to set `{'GDAL_TIFF_INTERNAL_MASK': True}`. Defaults to None.
     """
+
     if data.ndim == 2:
         nband = 1
         height, width = data.shape
@@ -69,6 +70,12 @@ def write_cog(
         nband, height, width = data.shape
     else:
         raise ValueError("data must be 2D or 3D (bands, height, width)")
+
+    if blocksize & (blocksize - 1) != 0:
+        raise ValueError("blocksize must be a power of two")
+
+    if blocksize < 64:
+        raise ValueError("blocksize must be at least 64")
 
     src_profile = {
         "driver": "GTiff",
@@ -94,7 +101,7 @@ def write_cog(
 
     env = {
         **(rasterio_env or {}),
-        "GDAL_TIFF_OVR_BLOCKSIZE": blocksize,
+        "GDAL_TIFF_OVR_BLOCKSIZE": str(blocksize),
     }
     with rasterio.Env(env):
         with MemoryFile() as memfile:

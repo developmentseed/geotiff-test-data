@@ -16,7 +16,7 @@ def generate(output_path: Path) -> None:
     write_cog(
         output_path,
         data,
-        blocksize=32,
+        blocksize=64,
         compress="LZW",
         predictor=2,
     )

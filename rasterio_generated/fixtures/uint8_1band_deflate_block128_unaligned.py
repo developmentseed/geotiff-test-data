@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 from rasterio.transform import from_origin
 
-from rasterio_generated.write_utils import write_tiff
+from rasterio_generated.write_utils import write_cog
 
 
 def generate(output_path: Path) -> None:
@@ -26,10 +26,9 @@ def generate(output_path: Path) -> None:
     # UTM zone 21N projection with 100m resolution (similar to original)
     transform = from_origin(373185.0, 8286015.0, 100.0, 100.0)
 
-    write_tiff(
+    write_cog(
         output_path,
         data,
-        driver="COG",
         blocksize=128,
         compress="DEFLATE",
         crs="EPSG:32621",

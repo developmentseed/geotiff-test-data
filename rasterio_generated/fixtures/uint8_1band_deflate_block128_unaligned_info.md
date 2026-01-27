@@ -11,7 +11,7 @@ Profile
     Bands:            1
     Tiled:            True
     Dtype:            uint8
-    NoData:           None
+    NoData:           0.0
     Alpha Band:       False
     Internal Mask:    False
     Interleave:       BAND
@@ -35,7 +35,7 @@ Image Structure
     LAYOUT: COG
     COMPRESSION: DEFLATE
     INTERLEAVE: BAND
-    OVERVIEW_RESAMPLING: CUBIC
+    OVERVIEW_RESAMPLING: BILINEAR
 
 Band 1
     ColorInterp: gray
@@ -43,6 +43,6 @@ Band 1
 IFD
     Id      Size           BlockSize     Decimation
     0       265x266        128x128       0
-    1       132x133        128x128       2
-    2       66x66          128x128       4
+    1       133x133        128x128       2
+    2       67x67          128x128       4
 ```

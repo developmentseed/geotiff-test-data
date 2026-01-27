@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from rasterio_generated.write_utils import write_tiff
+from rasterio_generated.write_utils import write_cog
 
 
 def generate(output_path: Path) -> None:
@@ -22,10 +22,9 @@ def generate(output_path: Path) -> None:
         ]
     )
 
-    write_tiff(
+    write_cog(
         output_path,
         data,
-        driver="COG",
         blocksize=64,
         compress="DEFLATE",
     )

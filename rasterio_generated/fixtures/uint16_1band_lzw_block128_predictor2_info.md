@@ -35,6 +35,7 @@ Image Structure
     LAYOUT: COG
     COMPRESSION: LZW
     INTERLEAVE: BAND
+    OVERVIEW_RESAMPLING: BILINEAR
 
 Band 1
     ColorInterp: gray

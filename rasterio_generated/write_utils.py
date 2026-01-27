@@ -130,8 +130,7 @@ def write_cog(
                     "interleave": interleave,
                     "compress": "DEFLATE",
                     "tiled": True,
-                    "blockxsize": blocksize,
-                    "blockysize": blocksize,
+                    "blocksize": blocksize,
                 }
 
                 if compress is not None:

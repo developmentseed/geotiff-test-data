@@ -36,6 +36,7 @@ Image Structure
     COMPRESSION: LERC
     LERC_VERSION: 2.4
     INTERLEAVE: BAND
+    OVERVIEW_RESAMPLING: BILINEAR
 
 Band 1
     ColorInterp: gray

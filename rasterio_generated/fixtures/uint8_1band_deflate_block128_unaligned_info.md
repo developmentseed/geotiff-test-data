@@ -35,6 +35,7 @@ Image Structure
     LAYOUT: COG
     COMPRESSION: DEFLATE
     INTERLEAVE: BAND
+    OVERVIEW_RESAMPLING: BILINEAR
 
 Band 1
     ColorInterp: gray

@@ -40,7 +40,7 @@ def write_cog(
     transform: Affine = from_origin(0, 0, 0.01, 0.01),
     predictor: Literal[2, 3] | None = None,
     nodata: int | float | None = None,
-    rasterio_env: dict[str, str | bool] | None = None,
+    rasterio_env: dict[str, str | bool | int] | None = None,
 ):
     """Write a COG to disk.
 
@@ -92,7 +92,11 @@ def write_cog(
     elif nodata_type == "alpha":
         src_profile["count"] = nband + 1
 
-    with rasterio.Env(rasterio_env or {}):
+    env = {
+        **(rasterio_env or {}),
+        "GDAL_TIFF_OVR_BLOCKSIZE": blocksize,
+    }
+    with rasterio.Env(env):
         with MemoryFile() as memfile:
             with memfile.open(**src_profile) as mem:
                 if nband == 3:

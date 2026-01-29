@@ -6,8 +6,8 @@ Compression: JPEG
 ColorSpace: YCbCr
 
 Profile
-    Width:            64
-    Height:           64
+    Width:            128
+    Height:           128
     Bands:            3
     Tiled:            True
     Dtype:            uint8
@@ -24,7 +24,7 @@ Geo
     Crs:              EPSG:32612
     Origin:           (529843.75, 5035156.25)
     Resolution:       (0.30517578125, -0.30517578125)
-    BoundingBox:      (529843.75, 5035136.71875, 529863.28125, 5035156.25)
+    BoundingBox:      (529843.75, 5035117.1875, 529882.8125, 5035156.25)
     MinZoom:          18
     MaxZoom:          18
 
@@ -51,6 +51,6 @@ Band 3
 
 IFD
     Id      Size           BlockSize     Decimation
-    0       64x64          32x32         0
-    1       32x32          128x128       2
+    0       128x128        64x64         0
+    1       64x64          64x64         2
 ```

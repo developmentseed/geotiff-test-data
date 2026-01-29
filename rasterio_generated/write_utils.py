@@ -41,6 +41,7 @@ def write_cog(
     predictor: Literal[2, 3] | None = None,
     nodata: int | float | None = None,
     rasterio_env: dict[str, str | bool | int] | None = None,
+    colorinterp: list[ColorInterp] | None = None,
 ):
     """Write a COG to disk.
 
@@ -106,19 +107,17 @@ def write_cog(
     with rasterio.Env(env):
         with MemoryFile() as memfile:
             with memfile.open(**src_profile) as mem:
-                if nband == 3:
-                    ci = [ColorInterp.red, ColorInterp.green, ColorInterp.blue]
-
-                else:
-                    ci = [ColorInterp.gray]
-                    if nband > 1:
-                        ci += [ColorInterp.undefined] * (nband - 1)
+                if colorinterp is not None:
+                    assert len(colorinterp) == mem.count
 
                 if nodata_type == "alpha" and mask is not None:
                     data = np.concatenate([data, mask])
-                    ci += [ColorInterp.alpha]
+                    assert (
+                        colorinterp is not None and colorinterp[-1] == ColorInterp.alpha
+                    )
 
-                mem.colorinterp = ci
+                if colorinterp is not None:
+                    mem.colorinterp = colorinterp
 
                 # Write Data
                 if nband == 1:

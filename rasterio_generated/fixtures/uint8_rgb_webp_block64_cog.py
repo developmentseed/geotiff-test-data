@@ -27,6 +27,6 @@ def generate(output_path: Path) -> None:
         output_path,
         data,
         blocksize=64,
-        compress="DEFLATE",
+        compress="WEBP",
         colorinterp=[ColorInterp.red, ColorInterp.green, ColorInterp.blue],
     )

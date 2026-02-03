@@ -32,6 +32,11 @@ def write_cog(
         "LERC_DEFLATE",
         "LERC_ZSTD",
         "LZMA",
+        "PACKBITS",
+        "CCITTRLE",
+        "CCITTFAX3",
+        "CCITTFAX4",
+        "JXL",
     ]
     | None = None,
     interleave: Literal["pixel", "band", "tile"] = "pixel",

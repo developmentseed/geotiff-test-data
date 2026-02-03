@@ -27,7 +27,7 @@ To add a new test case:
 1. Create a new Python file in `geotiff_test_data/fixtures/`
 2. Implement a `generate(output_path: Path)` function that creates the GeoTIFF
 
-Run `pixi run generate`.
+Run `pixi run generate` and `pixi run info`.
 
 ## Image Sources
 

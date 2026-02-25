@@ -45,6 +45,7 @@ def write_cog(
     nodata_type: Literal["nodata", "mask", "alpha"] | None = "nodata",
     transform: Affine = from_origin(0, 0, 0.01, 0.01),
     predictor: Literal[2, 3] | None = None,
+    level: int | None = None,
     nodata: int | float | None = None,
     rasterio_env: dict[str, str | bool | int] | None = None,
     colorinterp: list[ColorInterp] | None = None,
@@ -66,6 +67,7 @@ def write_cog(
         crs: The coordinate reference system. Defaults to "EPSG:4326".
         transform: The affine transform. Defaults to from_origin(0, 0, 0.01, 0.01).
         predictor: The predictor to use for compression. Defaults to None.
+        level: The compression level. Interpretation depends on the codec. Defaults to None (codec default).
         nodata: The nodata value to use. Defaults to None.
         rasterio_env: Parameters to set in the rasterio.Env context. E.g. you may want to set `{'GDAL_TIFF_INTERNAL_MASK': True}`. Defaults to None.
     """
@@ -151,6 +153,9 @@ def write_cog(
 
                 if compress is not None:
                     cog_profile["compress"] = compress
+
+                if level is not None:
+                    cog_profile["level"] = level
 
                 # Copy to output path
                 copy(mem, path, copy_src_overviews=True, **cog_profile)

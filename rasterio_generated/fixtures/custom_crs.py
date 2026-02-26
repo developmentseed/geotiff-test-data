@@ -1,4 +1,4 @@
-"""Generate a GeoTIFF that crosses the antimeridian near the Aleutian Islands."""
+"""Generate a GeoTIFF with non-epsg CRS."""
 
 from pathlib import Path
 

@@ -150,8 +150,8 @@ def write_cog(
                     mem.update_tags(**tags)
 
                 if scale is not None and offset is not None:
-                    mem._set_all_scales([scale] * mem.count)
-                    mem._set_all_offsets([offset] * mem.count)
+                    mem.scales = [scale] * mem.count
+                    mem.offsets = [offset] * mem.count
 
                 cog_profile = {
                     "driver": "COG",

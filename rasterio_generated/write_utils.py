@@ -49,6 +49,8 @@ def write_cog(
     rasterio_env: dict[str, str | bool | int] | None = None,
     colorinterp: list[ColorInterp] | None = None,
     tags: dict[str, str] | None = None,
+    scale: float | None = None,
+    offset: float | None = None,
 ):
     """Write a COG to disk.
 
@@ -146,6 +148,10 @@ def write_cog(
 
                 if tags is not None:
                     mem.update_tags(**tags)
+
+                if scale is not None and offset is not None:
+                    mem._set_all_scales([scale] * mem.count)
+                    mem._set_all_offsets([offset] * mem.count)
 
                 cog_profile = {
                     "driver": "COG",

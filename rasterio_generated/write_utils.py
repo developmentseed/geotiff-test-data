@@ -49,6 +49,9 @@ def write_cog(
     nodata: int | float | None = None,
     rasterio_env: dict[str, str | bool | int] | None = None,
     colorinterp: list[ColorInterp] | None = None,
+    tags: dict[str, str] | None = None,
+    scale: float | None = None,
+    offset: float | None = None,
 ):
     """Write a COG to disk.
 
@@ -70,6 +73,8 @@ def write_cog(
         level: The compression level. Interpretation depends on the codec. Defaults to None (codec default).
         nodata: The nodata value to use. Defaults to None.
         rasterio_env: Parameters to set in the rasterio.Env context. E.g. you may want to set `{'GDAL_TIFF_INTERNAL_MASK': True}`. Defaults to None.
+        colorinterp: The color interpretation for each band. Defaults to None.
+        tags: The tags to set on the dataset. Defaults to None.
     """
 
     if data.ndim == 2:
@@ -142,6 +147,13 @@ def write_cog(
                 )
                 overviews = [2**j for j in range(1, overview_level + 1)]
                 mem.build_overviews(overviews, Resampling.bilinear)
+
+                if tags is not None:
+                    mem.update_tags(**tags)
+
+                if scale is not None and offset is not None:
+                    mem.scales = [scale] * mem.count
+                    mem.offsets = [offset] * mem.count
 
                 cog_profile = {
                     "driver": "COG",

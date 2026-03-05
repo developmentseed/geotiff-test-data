@@ -26,6 +26,7 @@ from pathlib import Path
 import numpy as np
 import rasterio
 import rasterio.windows
+from rasterio.enums import MaskFlags
 
 
 def generate_npy_tiles(tif_path: Path) -> None:
@@ -67,6 +68,11 @@ def _write_tiles_for_ifd(
 
             npy_path = output_dir / f"{z}-{tile_x}-{tile_y}.npy"
             np.save(npy_path, data)
+
+            if MaskFlags.per_dataset in dataset.mask_flag_enums[0]:
+                mask = dataset.read_masks(1, window=window, boundless=True)
+                npy_path = output_dir / f"mask-{z}-{tile_x}-{tile_y}.npy"
+                np.save(npy_path, mask)
 
 
 def main() -> None:

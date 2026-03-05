@@ -22,5 +22,5 @@ def generate(output_path: Path) -> None:
         data,
         blocksize=64,
         compress="ZSTD",
-        level=1,
+        compress_level=1,
     )

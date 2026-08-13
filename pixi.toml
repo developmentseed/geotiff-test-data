@@ -6,9 +6,7 @@ platforms = ["win-64", "linux-64", "osx-64", "osx-arm64"]
 version = "0.1.0"
 
 [tasks]
-generate = "python -m rasterio_generated.cli"
-# Layouts rasterio cannot write: SubIFD pyramids, and a directory after the image.
-generate-tifffile = "python -m tifffile_generated.cli"
+generate = "python generate_fixtures.py"
 info = "bash scripts/info.sh"
 check = "bash scripts/check.sh"
 generate-npy = "python scripts/generate_npy.py"

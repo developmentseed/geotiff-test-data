@@ -25,7 +25,9 @@ def write_subifd_pyramid(
 ) -> None:
     """Write `data` with `levels` reduced resolutions in SubIFDs rather than in the IFD chain.
 
-    Tag 330 is typed IFD in a classic TIFF and IFD8 in a BigTIFF.
+    `rasterio.build_overviews` writes the reduced resolutions as more IFDs in the top-level
+    chain. It sets `NewSubfileType=1` on each reduced level and does not write tag 330. In a
+    SubIFD pyramid, tag 330 has the type IFD in a classic TIFF and the type IFD8 in a BigTIFF.
     """
     reduced = [data[:: 2**power, :: 2**power] for power in range(1, levels + 1)]
     with tifffile.TiffWriter(path, bigtiff=bigtiff) as writer:
@@ -38,30 +40,37 @@ def write_subifd_pyramid(
         for level in reduced:
             writer.write(
                 level,
-                subfiletype=1,
+                subfiletype=1,  # NewSubfileType bit 0 marks a reduced resolution of another image
                 tile=(blocksize, blocksize),
                 compression=compression,
             )
 
 
-def relocate_directory_to_end(path: Path) -> None:
-    """Move a BigTIFF's first IFD to the end of the file and repoint the header at it.
+def relocate_first_ifd_to_end(path: Path) -> None:
+    """Move the first IFD of a TIFF to the end of the file and point the header to it.
 
     `tifffile` reserves the directory immediately after the header, as rasterio does, because both
-    are told the image size up front. A writer that streams image data cannot, so its directory
-    follows the data; this produces that layout from a file already written.
+    are told the image size up front. A writer that streams image data cannot reserve it, so the
+    directory comes after the data. This function makes that layout from a file that is already
+    complete. It operates on a classic TIFF or a BigTIFF.
 
-    Only the directory record moves. A tag value too large for its slot is stored elsewhere and
-    referenced absolutely, as are the tile offsets, so nothing else needs rewriting.
+    Only the directory record of the first IFD moves. A tag value too large for its slot is stored
+    elsewhere and referenced absolutely, as are the tile offsets, so nothing else needs rewriting.
     """
-    raw = bytearray(path.read_bytes())
-    endian = "<" if raw[:2] == b"II" else ">"
-    start = struct.unpack(endian + "Q", raw[8:16])[0]
-    entries = struct.unpack(endian + "Q", raw[start : start + 8])[0]
-    length = 8 + entries * 20 + 8
+    with tifffile.TiffFile(path) as tif:
+        fmt, start = tif.tiff, tif.pages[0].offset
 
+    # A classic TIFF stores the offset of the first IFD at byte 4. A BigTIFF stores it at byte 8.
+    pointer = 4 if fmt.version == 42 else 8
+
+    raw = bytearray(path.read_bytes())
+    entries = struct.unpack(fmt.tagnoformat, raw[start : start + fmt.tagnosize])[0]
+    length = fmt.tagnosize + entries * fmt.tagsize + fmt.offsetsize
+
+    if len(raw) % 2:
+        raw += b"\x00"  # An IFD must start on a word boundary
     moved = len(raw)
-    raw += bytes(raw[start : start + length])
-    struct.pack_into(endian + "Q", raw, 8, moved)
-    struct.pack_into(endian + "Q", raw, start, 0)
+    raw += raw[start : start + length]
+    struct.pack_into(fmt.offsetformat, raw, pointer, moved)
+    struct.pack_into(fmt.tagnoformat, raw, start, 0)
     path.write_bytes(bytes(raw))

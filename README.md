@@ -18,13 +18,13 @@ pixi install
 pixi run generate
 ```
 
-This will execute all generator scripts in [geotiff_test_data/generators/](geotiff_test_data/generators/) and save the output GeoTIFF files next to each Python file, with the same name but a `.tif` extension.
+This command runs all generator scripts in [rasterio_generated/fixtures/](rasterio_generated/fixtures/) and [tifffile_generated/fixtures/](tifffile_generated/fixtures/). It saves each output GeoTIFF file next to its Python script, with the same name and a `.tif` extension.
 
 ## Adding new test cases
 
 To add a new test case:
 
-1. Create a new Python file in `geotiff_test_data/fixtures/`
+1. Create a new Python file in `rasterio_generated/fixtures/`. For a layout that rasterio cannot write, put the file in `tifffile_generated/fixtures/`
 2. Implement a `generate(output_path: Path)` function that creates the GeoTIFF
 
 Run `pixi run generate` and `pixi run info`.

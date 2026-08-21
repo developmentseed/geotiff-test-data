@@ -1,14 +1,15 @@
-"""CLI for generating test GeoTIFF files."""
+"""The CLI that generates all test files."""
 
 import importlib.util
 import sys
 from pathlib import Path
 
+MODULES = ["rasterio_generated", "tifffile_generated"]
 
-def main() -> None:
-    """Generate all test GeoTIFF files."""
-    package_dir = Path(__file__).parent
-    fixtures_dir = package_dir / "fixtures"
+
+def generate_module(module: str) -> None:
+    """Generate the test files for one generator module."""
+    fixtures_dir = Path(__file__).parent / module / "fixtures"
     output_dir = fixtures_dir
     output_dir.mkdir(exist_ok=True)
 
@@ -25,19 +26,19 @@ def main() -> None:
 
     for fixture_path in fixture_files:
         # Import the module
-        module_name = f"rasterio_generated.fixtures.{fixture_path.stem}"
+        module_name = f"{module}.fixtures.{fixture_path.stem}"
         spec = importlib.util.spec_from_file_location(module_name, fixture_path)
         if spec is None or spec.loader is None:
             raise ImportError(f"Could not load {fixture_path}")
 
-        module = importlib.util.module_from_spec(spec)
-        sys.modules[module_name] = module
-        spec.loader.exec_module(module)
+        mod = importlib.util.module_from_spec(spec)
+        sys.modules[module_name] = mod
+        spec.loader.exec_module(mod)
 
         # Call generate function with output path matching the script name
-        if hasattr(module, "generate"):
+        if hasattr(mod, "generate"):
             output_path = output_dir / f"{fixture_path.stem}.tif"
-            module.generate(output_path)
+            mod.generate(output_path)
             print(f"✓ Generated: {output_path}")
         else:
             raise ValueError(
@@ -45,6 +46,12 @@ def main() -> None:
             )
 
     print(f"\nComplete! Generated files in {output_dir}/")
+
+
+def main() -> None:
+    """Generate the test files for all generator modules."""
+    for module in MODULES:
+        generate_module(module)
 
 
 if __name__ == "__main__":

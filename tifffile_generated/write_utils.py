@@ -60,9 +60,6 @@ def relocate_first_ifd_to_end(path: Path) -> None:
     with tifffile.TiffFile(path) as tif:
         fmt, start = tif.tiff, tif.pages[0].offset
 
-    # A classic TIFF stores the offset of the first IFD at byte 4. A BigTIFF stores it at byte 8.
-    pointer = 4 if fmt.version == 42 else 8
-
     raw = bytearray(path.read_bytes())
     entries = struct.unpack(fmt.tagnoformat, raw[start : start + fmt.tagnosize])[0]
     length = fmt.tagnosize + entries * fmt.tagsize + fmt.offsetsize
@@ -71,6 +68,6 @@ def relocate_first_ifd_to_end(path: Path) -> None:
         raw += b"\x00"  # An IFD must start on a word boundary
     moved = len(raw)
     raw += raw[start : start + length]
-    struct.pack_into(fmt.offsetformat, raw, pointer, moved)
+    struct.pack_into(fmt.offsetformat, raw, fmt.offsetsize, moved)
     struct.pack_into(fmt.tagnoformat, raw, start, 0)
     path.write_bytes(bytes(raw))

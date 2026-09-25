@@ -28,10 +28,9 @@ def read_geo_keys(path: str) -> dict[str, Any]:
 
 
 def test_dataforcanada_user_defined_oblique_stereographic():
-    """The CRS stays user-defined, with its origin in the ProjNatOrigin* keys.
+    """Assert that CRS is stored in custom geo keys, not simply as `EPSG:2953`.
 
-    A plain gdal_translate of the source writes ProjectedCSTypeGeoKey = 2953
-    instead. See real_data/source-coop-dataforcanada/README.md.
+    See real_data/source-coop-dataforcanada/README.md.
     """
     geo_keys = read_geo_keys(
         "real_data/source-coop-dataforcanada/O2308000_7586000_cog.tif"

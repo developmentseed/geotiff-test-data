@@ -18,5 +18,8 @@ jobs:
       - name: Check generated files are up to date
         run: pixi run check
 
+      - name: Run tests
+        run: pixi run test
+
       # Use ruff-action so we get annotations in the Github UI
       - uses: astral-sh/ruff-action@v4.1.0

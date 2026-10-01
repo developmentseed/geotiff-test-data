@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: rasterio_generated/fixtures/uint16_1band_scale_offset.tif
+File: rasterio_generated/fixtures/uint8_rgb_deflate_block64_predictor2.tif
 COG: True
 Compression: DEFLATE
 ColorSpace: None
@@ -8,17 +8,17 @@ ColorSpace: None
 Profile
     Width:            128
     Height:           128
-    Bands:            1
+    Bands:            3
     Tiled:            True
-    Dtype:            uint16
-    NoData:           0.0
+    Dtype:            uint8
+    NoData:           None
     Alpha Band:       False
     Internal Mask:    False
-    Interleave:       BAND
+    Interleave:       PIXEL
     ColorMap:         False
-    ColorInterp:      ('gray',)
-    Scales:           (0.01,)
-    Offsets:          (100.0,)
+    ColorInterp:      ('red', 'green', 'blue')
+    Scales:           (1.0, 1.0, 1.0)
+    Offsets:          (0.0, 0.0, 0.0)
 
 Geo
     Crs:              EPSG:4326
@@ -34,13 +34,18 @@ Image Metadata
 Image Structure
     LAYOUT: COG
     COMPRESSION: DEFLATE
-    INTERLEAVE: BAND
+    INTERLEAVE: PIXEL
     OVERVIEW_RESAMPLING: BILINEAR
+    PREDICTOR: 2
 
 Band 1
-    ColorInterp: gray
-    Offset: 100.0
-    Scale: 0.01
+    ColorInterp: red
+
+Band 2
+    ColorInterp: green
+
+Band 3
+    ColorInterp: blue
 
 IFD
     Id      Size           BlockSize     Decimation

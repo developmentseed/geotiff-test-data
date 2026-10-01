@@ -9,7 +9,7 @@ from rasterio_generated.write_utils import write_cog
 
 
 def generate(output_path: Path) -> None:
-    data = np.arange(42, dtype=np.uint8).reshape(1, 42)
+    data = np.arange(1, 43, dtype=np.uint8).reshape(1, 42)
     data = np.repeat(data, 42, axis=0)
     transform = from_origin(-204, 24, 1, 1)
 

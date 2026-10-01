@@ -6,8 +6,8 @@ Compression: LZW
 ColorSpace: None
 
 Profile
-    Width:            128
-    Height:           128
+    Width:            256
+    Height:           256
     Bands:            1
     Tiled:            True
     Dtype:            uint16
@@ -24,7 +24,7 @@ Geo
     Crs:              EPSG:4326
     Origin:           (0.0, 0.0)
     Resolution:       (0.01, -0.01)
-    BoundingBox:      (0.0, -1.28, 1.28, 0.0)
+    BoundingBox:      (0.0, -2.56, 2.56, 0.0)
     MinZoom:          7
     MaxZoom:          7
 
@@ -43,6 +43,6 @@ Band 1
 
 IFD
     Id      Size           BlockSize     Decimation
-    0       128x128        64x64         0
-    1       64x64          64x64         2
+    0       256x256        128x128       0
+    1       128x128        128x128       2
 ```

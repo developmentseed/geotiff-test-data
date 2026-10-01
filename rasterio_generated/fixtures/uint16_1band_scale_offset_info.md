@@ -36,6 +36,7 @@ Image Structure
     COMPRESSION: DEFLATE
     INTERLEAVE: BAND
     OVERVIEW_RESAMPLING: BILINEAR
+    PREDICTOR: 2
 
 Band 1
     ColorInterp: gray

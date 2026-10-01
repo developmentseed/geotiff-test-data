@@ -101,9 +101,6 @@ def write_cog(
         "transform": transform,
     }
 
-    if predictor is not None:
-        src_profile["predictor"] = predictor
-
     if nodata is not None:
         src_profile["nodata"] = nodata
 
@@ -168,6 +165,9 @@ def write_cog(
 
                 if compress_level is not None:
                     cog_profile["level"] = compress_level
+
+                if predictor is not None:
+                    cog_profile["predictor"] = predictor
 
                 # Copy to output path
                 copy(mem, path, copy_src_overviews=True, **cog_profile)

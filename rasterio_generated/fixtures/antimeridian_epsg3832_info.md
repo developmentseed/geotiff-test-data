@@ -1,16 +1,16 @@
 ```
 Driver: GTiff
-File: real_data/dep/dep_ls_geomad_066_022_2025_red.tif
+File: rasterio_generated/fixtures/antimeridian_epsg3832.tif
 COG: True
 Compression: DEFLATE
 ColorSpace: None
 
 Profile
-    Width:            320
-    Height:           320
+    Width:            42
+    Height:           42
     Bands:            1
-    Tiled:            False
-    Dtype:            uint16
+    Tiled:            True
+    Dtype:            uint8
     NoData:           0.0
     Alpha Band:       False
     Internal Mask:    False
@@ -22,24 +22,24 @@ Profile
 
 Geo
     Crs:              EPSG:3832
-    Origin:           (3336000.0, -1792000.0)
-    Resolution:       (300.0, -300.0)
-    BoundingBox:      (3336000.0, -1888000.0, 3432000.0, -1792000.0)
-    MinZoom:          1
-    MaxZoom:          1
+    Origin:           (723577.0, 2736035.0)
+    Resolution:       (111320.0, -111320.0)
+    BoundingBox:      (723577.0, -1939405.0, 5399017.0, 2736035.0)
+    MinZoom:          0
+    MaxZoom:          0
 
 Image Metadata
     AREA_OR_POINT: Area
 
 Image Structure
+    LAYOUT: COG
     COMPRESSION: DEFLATE
     INTERLEAVE: BAND
-    PREDICTOR: 2
 
 Band 1
     ColorInterp: gray
 
 IFD
     Id      Size           BlockSize     Decimation
-    0       320x320        320x320       0
+    0       42x42          64x64         0
 ```

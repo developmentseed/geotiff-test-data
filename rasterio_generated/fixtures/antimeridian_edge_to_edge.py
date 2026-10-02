@@ -1,4 +1,8 @@
-"""Generate an EPSG:4326 GeoTIFF spanning the full 360° of longitude, from 10°S to 10°N."""
+"""Generate a full-longitude EPSG:4326 GeoTIFF from 10°S to 10°N.
+
+Spans the full 360° of longitude, so it touches the antimeridian at both
+-180° and 180°.
+"""
 
 from pathlib import Path
 

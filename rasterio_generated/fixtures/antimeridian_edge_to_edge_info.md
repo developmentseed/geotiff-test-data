@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: rasterio_generated/fixtures/antimeridian_360.tif
+File: rasterio_generated/fixtures/antimeridian_edge_to_edge.tif
 COG: True
 Compression: DEFLATE
 ColorSpace: None

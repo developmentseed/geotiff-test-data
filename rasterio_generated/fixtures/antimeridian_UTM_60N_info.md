@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: rasterio_generated/fixtures/antimeridian_utm60.tif
+File: rasterio_generated/fixtures/antimeridian_UTM_60N.tif
 COG: True
 Compression: DEFLATE
 ColorSpace: None

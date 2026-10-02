@@ -3,7 +3,7 @@
 from pathlib import Path
 
 import numpy as np
-from rasterio.transform import Affine
+from affine import Affine
 
 from rasterio_generated.write_utils import write_cog
 

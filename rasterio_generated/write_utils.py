@@ -66,15 +66,17 @@ def write_cog(
         data: The numpy array data to write.
         mask: The mask array, if any. Defaults to None.
         blocksize: The block size for tiling. Defaults to 256.
-        compress: The compression method to use. Defaults to None.
+        compress: The compression method to use. Defaults to None, which writes DEFLATE.
         crs: The coordinate reference system. Defaults to "EPSG:4326".
         transform: The affine transform. Defaults to from_origin(0, 0, 0.01, 0.01).
-        predictor: The predictor to use for compression. Defaults to None.
+        predictor: The predictor to use for compression: 2 for horizontal differencing, or 3 for floating point, which GDAL only allows for float data. Only DEFLATE, LZW and ZSTD compression take a predictor. Defaults to None.
         compress_level: The compression level. Interpretation depends on the codec. Defaults to None (codec default).
-        nodata: The nodata value to use. Defaults to None.
+        nodata: The nodata value to use. Defaults to None, which writes 0 when nodata_type is "nodata".
         rasterio_env: Parameters to set in the rasterio.Env context. E.g. you may want to set `{'GDAL_TIFF_INTERNAL_MASK': True}`. Defaults to None.
         colorinterp: The color interpretation for each band. Defaults to None.
         tags: The tags to set on the dataset. Defaults to None.
+        scale: The scale to set on every band. Defaults to None.
+        offset: The offset to set on every band. Defaults to None.
     """
 
     if data.ndim == 2:
@@ -91,6 +93,13 @@ def write_cog(
     if blocksize < 64:
         raise ValueError("blocksize must be at least 64")
 
+    # GDAL only writes the predictor for these codecs. For any other it drops
+    # the predictor with at most a logged warning, and with none for LZMA.
+    if predictor is not None and compress not in (None, "DEFLATE", "LZW", "ZSTD"):
+        raise ValueError(
+            f"predictor needs DEFLATE, LZW or ZSTD compression, not {compress}"
+        )
+
     src_profile = {
         "driver": "GTiff",
         "count": nband,
@@ -101,14 +110,11 @@ def write_cog(
         "transform": transform,
     }
 
-    if predictor is not None:
-        src_profile["predictor"] = predictor
-
     if nodata is not None:
         src_profile["nodata"] = nodata
 
     if nodata_type == "nodata":
-        src_profile["nodata"] = 0
+        src_profile.setdefault("nodata", 0)
 
     elif nodata_type == "alpha":
         src_profile["count"] = nband + 1
@@ -151,15 +157,16 @@ def write_cog(
                 if tags is not None:
                     mem.update_tags(**tags)
 
-                if scale is not None and offset is not None:
+                if scale is not None:
                     mem.scales = [scale] * mem.count
+
+                if offset is not None:
                     mem.offsets = [offset] * mem.count
 
                 cog_profile = {
                     "driver": "COG",
                     "interleave": interleave,
                     "compress": "DEFLATE",
-                    "tiled": True,
                     "blocksize": blocksize,
                 }
 
@@ -169,5 +176,8 @@ def write_cog(
                 if compress_level is not None:
                     cog_profile["level"] = compress_level
 
+                if predictor is not None:
+                    cog_profile["predictor"] = predictor
+
                 # Copy to output path
-                copy(mem, path, copy_src_overviews=True, **cog_profile)
+                copy(mem, path, **cog_profile)

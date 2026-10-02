@@ -1,6 +1,6 @@
 ```
 Driver: GTiff
-File: rasterio_generated/fixtures/uint8_1band_deflate_block128_unaligned_predictor2.tif
+File: rasterio_generated/fixtures/uint8_1band_deflate_block128_unaligned_mask.tif
 COG: True
 Compression: DEFLATE
 ColorSpace: None
@@ -11,9 +11,9 @@ Profile
     Bands:            1
     Tiled:            True
     Dtype:            uint8
-    NoData:           0.0
+    NoData:           None
     Alpha Band:       False
-    Internal Mask:    False
+    Internal Mask:    True
     Interleave:       BAND
     ColorMap:         False
     ColorInterp:      ('gray',)
@@ -36,7 +36,6 @@ Image Structure
     COMPRESSION: DEFLATE
     INTERLEAVE: BAND
     OVERVIEW_RESAMPLING: BILINEAR
-    PREDICTOR: 2
 
 Band 1
     ColorInterp: gray

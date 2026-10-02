@@ -1,17 +1,17 @@
 ```
 Driver: GTiff
-File: rasterio_generated/fixtures/uint8_1band_deflate_block128_unaligned_predictor2.tif
+File: rasterio_generated/fixtures/float32_1band_deflate_block64_predictor3.tif
 COG: True
 Compression: DEFLATE
 ColorSpace: None
 
 Profile
-    Width:            300
-    Height:           302
+    Width:            128
+    Height:           128
     Bands:            1
     Tiled:            True
-    Dtype:            uint8
-    NoData:           0.0
+    Dtype:            float32
+    NoData:           None
     Alpha Band:       False
     Internal Mask:    False
     Interleave:       BAND
@@ -21,12 +21,12 @@ Profile
     Offsets:          (0.0,)
 
 Geo
-    Crs:              EPSG:32621
-    Origin:           (373185.0, 8286015.0)
-    Resolution:       (100.0, -100.0)
-    BoundingBox:      (373185.0, 8255815.0, 403185.0, 8286015.0)
-    MinZoom:          8
-    MaxZoom:          9
+    Crs:              EPSG:4326
+    Origin:           (0.0, 0.0)
+    Resolution:       (0.01, -0.01)
+    BoundingBox:      (0.0, -1.28, 1.28, 0.0)
+    MinZoom:          7
+    MaxZoom:          7
 
 Image Metadata
     AREA_OR_POINT: Area
@@ -36,14 +36,13 @@ Image Structure
     COMPRESSION: DEFLATE
     INTERLEAVE: BAND
     OVERVIEW_RESAMPLING: BILINEAR
-    PREDICTOR: 2
+    PREDICTOR: 3
 
 Band 1
     ColorInterp: gray
 
 IFD
     Id      Size           BlockSize     Decimation
-    0       300x302        128x128       0
-    1       150x151        128x128       2
-    2       75x76          128x128       4
+    0       128x128        64x64         0
+    1       64x64          64x64         2
 ```

@@ -1,17 +1,17 @@
 ```
 Driver: GTiff
-File: rasterio_generated/fixtures/uint8_1band_lzw_block64_predictor2.tif
+File: rasterio_generated/fixtures/uint8_1band_sparse_no_nodata.tif
 COG: True
-Compression: LZW
+Compression: None
 ColorSpace: None
 
 Profile
-    Width:            128
-    Height:           128
+    Width:            512
+    Height:           512
     Bands:            1
     Tiled:            True
     Dtype:            uint8
-    NoData:           0.0
+    NoData:           None
     Alpha Band:       False
     Internal Mask:    False
     Interleave:       BAND
@@ -22,27 +22,22 @@ Profile
 
 Geo
     Crs:              EPSG:4326
-    Origin:           (0.0, 0.0)
-    Resolution:       (0.01, -0.01)
-    BoundingBox:      (0.0, -1.28, 1.28, 0.0)
-    MinZoom:          7
-    MaxZoom:          7
+    Origin:           (-10.0, 10.0)
+    Resolution:       (0.01953125, -0.01953125)
+    BoundingBox:      (-10.0, 0.0, 0.0, 10.0)
+    MinZoom:          5
+    MaxZoom:          6
 
 Image Metadata
     AREA_OR_POINT: Area
 
 Image Structure
-    LAYOUT: COG
-    COMPRESSION: LZW
     INTERLEAVE: BAND
-    OVERVIEW_RESAMPLING: BILINEAR
-    PREDICTOR: 2
 
 Band 1
     ColorInterp: gray
 
 IFD
     Id      Size           BlockSize     Decimation
-    0       128x128        64x64         0
-    1       64x64          64x64         2
+    0       512x512        256x256       0
 ```

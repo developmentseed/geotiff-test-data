@@ -12,7 +12,7 @@ HERE = Path(__file__).parent
 
 
 def generate(output_path: Path) -> None:
-    """Generate a 128x128 tiled uint16 big endian GeoTIFF with LZW and predictor 2.
+    """Generate a 256x256 uint16 big endian GeoTIFF with 128x128 tiles, LZW and predictor 2.
 
     Readers must swap samples to native order before undoing horizontal
     differencing, which adds neighbouring samples as integers.

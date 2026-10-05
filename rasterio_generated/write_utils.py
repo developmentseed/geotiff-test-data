@@ -181,3 +181,29 @@ def write_cog(
 
                 # Copy to output path
                 copy(mem, path, **cog_profile)
+
+
+def rewrite_big_endian(src_path: Path, path: Path) -> None:
+    """Rewrite a COG as a big endian (MM) TIFF, keeping its layout.
+
+    GDAL's COG driver has no ENDIANNESS option, so this copies through the GTiff
+    driver with COPY_SRC_OVERVIEWS, which keeps the COG layout: header and IFDs
+    first, then overview tiles, then full resolution tiles. Tiling, compression
+    and predictor are taken from the source.
+    """
+    with rasterio.open(src_path) as src:
+        block_height, block_width = src.block_shapes[0]
+        image_structure = src.tags(ns="IMAGE_STRUCTURE")
+        creation_options = {
+            "driver": "GTiff",
+            "tiled": True,
+            "blockxsize": block_width,
+            "blockysize": block_height,
+            "compress": image_structure["COMPRESSION"],
+            "interleave": image_structure["INTERLEAVE"],
+            "endianness": "BIG",
+        }
+        if "PREDICTOR" in image_structure:
+            creation_options["predictor"] = image_structure["PREDICTOR"]
+
+        copy(src, path, copy_src_overviews=True, **creation_options)

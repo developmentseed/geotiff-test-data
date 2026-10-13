@@ -2,8 +2,8 @@
 
 GDAL's COG driver can't write big endian files, so these fixtures are rewritten
 from a little endian COG through the GTiff driver. Check that they really are
-big endian, carry the predictor they are named for on every IFD, and hold the
-same pixels as their little endian source at every level.
+big endian, carry the expected predictor on every IFD (1, none, for LERC), and
+hold the same pixels as their little endian source at every level.
 """
 
 from collections.abc import Callable
@@ -16,6 +16,12 @@ import tifffile
 
 from rasterio_generated.fixtures import (
     float32_1band_deflate_block64_predictor3_big_endian as float32_predictor3,
+)
+from rasterio_generated.fixtures import (
+    float32_1band_lerc_block64_big_endian as float32_lerc,
+)
+from rasterio_generated.fixtures import (
+    uint16_1band_lerc_block64_big_endian as uint16_lerc,
 )
 from rasterio_generated.fixtures import (
     uint16_1band_lzw_block128_predictor2 as uint16_predictor2,
@@ -33,6 +39,16 @@ CASES = [
         "float32_1band_deflate_block64_predictor3_big_endian",
         3,
         float32_predictor3.generate_source,
+    ),
+    (
+        "uint16_1band_lerc_block64_big_endian",
+        1,
+        uint16_lerc.generate_source,
+    ),
+    (
+        "float32_1band_lerc_block64_big_endian",
+        1,
+        float32_lerc.generate_source,
     ),
 ]
 

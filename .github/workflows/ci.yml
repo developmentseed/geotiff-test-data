@@ -11,9 +11,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
 
-      - uses: prefix-dev/setup-pixi@v0.11.0
+      - uses: prefix-dev/setup-pixi@a2789fe3805b9ae22d6c25a15df2f2c624cd092e # v0.11.1
         with:
-          pixi-version: v0.63.2
+          pixi-version: v0.82.1
 
       - name: Check generated files are up to date
         run: pixi run check

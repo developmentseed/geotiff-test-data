@@ -33,7 +33,6 @@ Image Metadata
 
 Image Structure
     INTERLEAVE: BAND
-    LAYOUT: COG
 
 Band 1
     ColorInterp: gray

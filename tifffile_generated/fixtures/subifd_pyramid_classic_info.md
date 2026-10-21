@@ -38,7 +38,6 @@ Image Metadata
 Image Structure
     COMPRESSION: DEFLATE
     INTERLEAVE: BAND
-    LAYOUT: COG
 
 Band 1
     ColorInterp: gray

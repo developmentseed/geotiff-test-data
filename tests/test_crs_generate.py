@@ -90,3 +90,33 @@ def test_fetch_epsg_json_skips_existing(tmp_path: Path, monkeypatch):
     existing.write_text("{}")
     monkeypatch.setattr("urllib.request.urlopen", _no_network)
     assert fetch_epsg_json(32633, tmp_path) == existing
+
+
+class _Response:
+    def __init__(self, body: bytes):
+        self.body = body
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+    def read(self) -> bytes:
+        return self.body
+
+
+def test_fetch_epsg_json_identifies_itself(tmp_path: Path, monkeypatch):
+    """epsg.io answers 403 to urllib's default User-Agent."""
+    seen = {}
+
+    def fake_urlopen(request, timeout=None):
+        seen["url"] = request.full_url
+        seen["user_agent"] = request.get_header("User-agent")
+        return _Response(b'{"code": "4267"}')
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+    path = fetch_epsg_json(4267, tmp_path)
+    assert seen["url"] == "https://epsg.io/4267.json"
+    assert seen["user_agent"] and "geotiff-test-data" in seen["user_agent"]
+    assert path.read_bytes() == b'{"code": "4267"}'

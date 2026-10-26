@@ -6,12 +6,15 @@ set -e
 echo "Running generate..."
 pixi run generate
 
+echo "Running generate-crs..."
+pixi run generate-crs
+
 echo "Running info..."
 pixi run info
 
 echo "Checking for uncommitted changes..."
 if [ -n "$(git status --porcelain)" ]; then
-    echo "ERROR: Generated files are out of date. Please run 'pixi run generate' and 'pixi run info' and commit the changes."
+    echo "ERROR: Generated files are out of date. Please run 'pixi run generate', 'pixi run generate-crs' and 'pixi run info' and commit the changes."
     git status
     git diff
     exit 1

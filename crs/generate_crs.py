@@ -113,7 +113,12 @@ def fetch_epsg_json(code: int, epsg_dir: Path, *, refresh: bool = False) -> Path
     if path.exists() and not refresh:
         return path
     epsg_dir.mkdir(parents=True, exist_ok=True)
-    with urllib.request.urlopen(EPSG_IO_URL.format(code=code), timeout=60) as response:  # noqa: S310
+    # epsg.io answers 403 to urllib's default User-Agent.
+    request = urllib.request.Request(
+        EPSG_IO_URL.format(code=code),
+        headers={"User-Agent": "geotiff-test-data corpus generator (+https://github.com/developmentseed/geotiff-test-data)"},
+    )
+    with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310
         path.write_bytes(response.read())
     return path
 

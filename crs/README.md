@@ -4,7 +4,7 @@ GeoTIFF files describe their coordinate reference system with GeoKeys. A reader 
 
 GDAL/PROJ is the oracle. For every case, GDAL writes the file and then reads it back; the manifest records both the raw GeoKeys GDAL wrote and the CRS GDAL/PROJ reads from them. A reader is conformant when, for every tested fixture, the CRS it builds equals the one in the manifest.
 
-Consumers today: [async-geotiff](https://github.com/developmentseed/async-geotiff) (Python, pyproj) and the GeoTIFF package in [deck.gl-raster](https://github.com/developmentseed/deck.gl-raster) (TypeScript, no PROJ database). The design is written up in async-geotiff under `dev-docs/specs/2026-10-26-geokey-crs-conformance-design.md`.
+Consumers today: [async-geotiff](https://github.com/developmentseed/async-geotiff) (Python, pyproj) and the GeoTIFF package in [deck.gl-raster](https://github.com/developmentseed/deck.gl-raster) (TypeScript, no PROJ database). The design, including the decisions behind the manifest and table schemas and the findings about GDAL and PROJ that shaped them, is in [DESIGN.md](DESIGN.md); its later sections describe the async-geotiff builder that consumes this corpus.
 
 ## Layout
 
@@ -81,7 +81,7 @@ The case list covers every `ProjCoordTransGeoKey` code GDAL can write, each dist
 
 **Comparing `core`.** Match parameters by EPSG code, or by name when `epsg` is null. A table parameter missing from `core.parameters` means PROJ dropped a zero-valued parameter (`Latitude of natural origin` for Equidistant Cylindrical, see the CT 17 note); treat it as 0. Compare numbers with a tolerance: values such as `299999.9999999998` (feet converted to metres) and `46.800000000000104` (grads converted to degrees) are the result of unit conversion, so use a relative tolerance of about `1e-9` with an absolute floor of `1e-6`.
 
-**`point`.** `(lon, lat)` is projected with a transformer from a degree, Greenwich longlat CRS on the row's own ellipsoid to the read-back CRS, so no datum shift is involved. For geographic rows the transform still runs, so `(x, y)` is in the row's own angular unit and prime meridian. A reader checks its CRS by projecting the same `(lon, lat)` the same way and comparing to `(x, y)`; it is a cheap smoke test, not a substitute for the CRS comparison.
+**`point`.** `(lon, lat)` is projected with a transformer from a degree, Greenwich longlat CRS on the row's own ellipsoid to the read-back CRS, so no datum shift is involved. `x` and `y` are rounded to millimetres, and the generator keeps the committed value when a regeneration moves it by less than a millimetre, because PROJ's last digits differ between platforms (macOS arm64 and Linux x86_64 disagree by a few micrometres). Compare with a tolerance of at least a millimetre. For geographic rows the transform still runs, so `(x, y)` is in the row's own angular unit and prime meridian. A reader checks its CRS by projecting the same `(lon, lat)` the same way and comparing to `(x, y)`; it is a cheap smoke test, not a substitute for the CRS comparison.
 
 ## CT method table
 

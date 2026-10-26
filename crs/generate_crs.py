@@ -26,7 +26,33 @@ from crs.normalize import core_of, point_for, project_point
 
 SCHEMA_VERSION = 1
 EPSG_IO_URL = "https://epsg.io/{code}.json"
+POINT_DECIMALS = 3
+"""Projected test points are rounded to this many decimals (millimetres)."""
+POINT_TOLERANCE = 10**-POINT_DECIMALS
 _SIZE = 8
+
+
+def stable_point(point: dict | None, previous: dict | None) -> dict | None:
+    """Keep the previously committed point when the new one is within a millimetre.
+
+    Rounding alone can still flip at a rounding boundary when PROJ's result
+    moves by a micrometre between platforms; keeping the committed value makes
+    regeneration byte-stable everywhere.
+    """
+    if point is None or previous is None:
+        return point
+    if (point["lon"], point["lat"]) != (previous["lon"], previous["lat"]):
+        return point
+    if (
+        abs(point["x"] - previous["x"]) <= POINT_TOLERANCE
+        and abs(point["y"] - previous["y"]) <= POINT_TOLERANCE
+    ):
+        return {
+            **previous,
+            "x": round(previous["x"], POINT_DECIMALS),
+            "y": round(previous["y"], POINT_DECIMALS),
+        }
+    return point
 
 
 def write_case(case: Case, path: Path) -> None:
@@ -89,7 +115,13 @@ def manifest_row(case: Case, path: Path, crs_dir: Path) -> dict:
         if gdal["proj4"] is not None:
             lon, lat = point_for(core)
             x, y = project_point(crs, lon, lat)
-            point = {"lon": lon, "lat": lat, "x": x, "y": y}
+            # PROJ's last digits differ between platforms; millimetres do not.
+            point = {
+                "lon": lon,
+                "lat": lat,
+                "x": round(x, POINT_DECIMALS),
+                "y": round(y, POINT_DECIMALS),
+            }
 
     epsg_json = None
     if case.kind == "epsg":
@@ -133,12 +165,21 @@ def generate(crs_dir: Path, *, refresh_epsg: bool = False) -> dict:
     fixtures_dir = crs_dir / "fixtures"
     fixtures_dir.mkdir(parents=True, exist_ok=True)
     epsg_dir = crs_dir / "epsg"
+    manifest_path = crs_dir / "manifest.json"
+
+    previous_points: dict[str, dict | None] = {}
+    if manifest_path.exists():
+        with manifest_path.open() as f:
+            previous = json.load(f)
+        previous_points = {row["name"]: row["point"] for row in previous["cases"]}
 
     rows = []
     for case in CASES:
         path = fixtures_dir / f"{case.name}.tif"
         write_case(case, path)
-        rows.append(manifest_row(case, path, crs_dir))
+        row = manifest_row(case, path, crs_dir)
+        row["point"] = stable_point(row["point"], previous_points.get(case.name))
+        rows.append(row)
         print(f"✓ Generated: {path.relative_to(crs_dir.parent)}")
 
     for code in EPSG_CODES:
@@ -161,10 +202,10 @@ def generate(crs_dir: Path, *, refresh_epsg: bool = False) -> dict:
         },
         "cases": sorted(rows, key=lambda row: row["name"]),
     }
-    with (crs_dir / "manifest.json").open("w") as f:
+    with manifest_path.open("w") as f:
         json.dump(manifest, f, indent=1, sort_keys=True)
         f.write("\n")
-    print(f"\nComplete! {len(rows)} cases in {crs_dir / 'manifest.json'}")
+    print(f"\nComplete! {len(rows)} cases in {manifest_path}")
     return manifest
 
 

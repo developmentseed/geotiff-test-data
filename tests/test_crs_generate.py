@@ -5,7 +5,13 @@ from pathlib import Path
 import pytest
 
 from crs.cases import Case
-from crs.generate_crs import fetch_epsg_json, manifest_row, read_back, write_case
+from crs.generate_crs import (
+    fetch_epsg_json,
+    manifest_row,
+    read_back,
+    stable_point,
+    write_case,
+)
 
 TMERC = Case(
     "tmerc",
@@ -38,6 +44,36 @@ def test_manifest_row_proj_case(tmp_path: Path):
     assert row["core"]["method"]["epsg"] == 9807
     assert row["point"]["lon"] == -0.5 and row["point"]["lat"] == 8.0
     assert row["epsg_json"] is None
+
+
+def test_point_coordinates_are_rounded_to_millimetres(tmp_path: Path):
+    """PROJ's last digits differ between platforms; the manifest must not."""
+    path = tmp_path / "tmerc.tif"
+    write_case(TMERC, path)
+    point = manifest_row(TMERC, path, tmp_path)["point"]
+    assert point["x"] == round(point["x"], 3)
+    assert point["y"] == round(point["y"], 3)
+
+
+def test_stable_point_keeps_previous_value_within_tolerance():
+    previous = {"lon": 1.0, "lat": 2.0, "x": 100.0, "y": 5.0}
+    assert (
+        stable_point({"lon": 1.0, "lat": 2.0, "x": 100.0004, "y": 4.9996}, previous)
+        == previous
+    )
+    moved = {"lon": 1.0, "lat": 2.0, "x": 100.01, "y": 5.0}
+    assert stable_point(moved, previous) == moved
+    other_input = {"lon": 3.0, "lat": 2.0, "x": 100.0, "y": 5.0}
+    assert stable_point(other_input, previous) == other_input
+    assert stable_point(moved, None) == moved
+    assert stable_point(None, previous) is None
+
+
+def test_stable_point_rounds_a_kept_full_precision_value():
+    """A committed value from before rounding comes back rounded, once."""
+    previous = {"lon": 1.0, "lat": 2.0, "x": 100.0004321, "y": 4.9996789}
+    new = {"lon": 1.0, "lat": 2.0, "x": 100.0, "y": 5.0}
+    assert stable_point(new, previous) == {"lon": 1.0, "lat": 2.0, "x": 100.0, "y": 5.0}
 
 
 def test_manifest_row_keyless_case(tmp_path: Path):

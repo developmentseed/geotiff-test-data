@@ -20,6 +20,14 @@ pixi run generate
 
 This command runs all generator scripts in [rasterio_generated/fixtures/](rasterio_generated/fixtures/) and [tifffile_generated/fixtures/](tifffile_generated/fixtures/). It saves each output GeoTIFF file next to its Python script, with the same name and a `.tif` extension.
 
+### Generate the CRS conformance corpus
+
+```bash
+pixi run generate-crs
+```
+
+This writes the GeoKey-to-CRS conformance corpus in [crs/](crs/): one small GeoTIFF per coordinate reference system case, a manifest of the GeoKeys GDAL wrote and the CRS it reads back, and the table that maps GeoTIFF projection codes to PROJ methods. See [crs/README.md](crs/README.md).
+
 ## Adding new test cases
 
 To add a new test case:

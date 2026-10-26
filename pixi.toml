@@ -7,6 +7,7 @@ version = "0.1.0"
 
 [tasks]
 generate = "python generate_fixtures.py"
+generate-crs = "python -m crs.generate_crs"
 info = "bash scripts/info.sh"
 check = "bash scripts/check.sh"
 generate-npy = "python scripts/generate_npy.py"
@@ -25,3 +26,4 @@ pytest = ">=8"
 [pypi-dependencies]
 rio-cogeo = ">=7.0.1, <8"
 async-tiff = ">=0.7.2, <0.8"
+pyproj = ">=3.7, <4"

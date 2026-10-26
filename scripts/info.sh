@@ -1,10 +1,11 @@
 #!/bin/bash
-# Generate rio cogeo info markdown files for all TIFFs in the repo
+# Generate rio cogeo info markdown files for all TIFFs in the repo,
+# except the CRS corpus, which crs/manifest.json documents instead.
 
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$REPO_DIR"
 
-for tif in $(find . -name "*.tif" -type f); do
+for tif in $(find . -path ./crs -prune -o -name "*.tif" -type f -print); do
 	md="${tif%.tif}_info.md"
 	echo '```' >"$md"
 	# Make File: path relative and strip trailing whitespace

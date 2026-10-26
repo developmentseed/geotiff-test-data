@@ -184,6 +184,13 @@ CASES: list[Case] = [
         tags=("ct:16",),
     ),
     Case("eqc", "proj", "+proj=eqc +lat_ts=30 +lon_0=10 +ellps=WGS84", tags=("ct:17",)),
+    Case(
+        "eqc_lat0",
+        "proj",
+        "+proj=eqc +lat_ts=30 +lat_0=5 +lon_0=10 +ellps=WGS84",
+        note="Pins what PROJ does with ProjNatOriginLat for Equidistant Cylindrical",
+        tags=("ct:17",),
+    ),
     Case("cass", "proj", "+proj=cass +lat_0=10 +lon_0=-61 +ellps=WGS84", tags=("ct:18",)),
     Case("gnom", "proj", "+proj=gnom +lat_0=40 +lon_0=-100 +ellps=WGS84", tags=("ct:19",)),
     Case("mill", "proj", "+proj=mill +lon_0=0 +ellps=WGS84", tags=("ct:20",)),

@@ -10118,6 +10118,211 @@
     },
     "linear_unit_m": 1.0,
     "method": {
+     "epsg": 1028,
+     "name": "Equidistant Cylindrical"
+    },
+    "parameters": [
+     {
+      "epsg": 8801,
+      "name": "Latitude of natural origin",
+      "value": 5.0
+     },
+     {
+      "epsg": 8802,
+      "name": "Longitude of natural origin",
+      "value": 10.0
+     },
+     {
+      "epsg": 8823,
+      "name": "Latitude of 1st standard parallel",
+      "value": 30.0
+     },
+     {
+      "epsg": 8806,
+      "name": "False easting",
+      "value": 0.0
+     },
+     {
+      "epsg": 8807,
+      "name": "False northing",
+      "value": 0.0
+     }
+    ],
+    "prime_meridian_deg": 0.0,
+    "towgs84": null,
+    "type": "ProjectedCRS"
+   },
+   "epsg_json": null,
+   "file": "fixtures/eqc_lat0.tif",
+   "gdal": {
+    "proj4": "+proj=eqc +lat_ts=30 +lat_0=5 +lon_0=10 +x_0=0 +y_0=0 +ellps=WGS84 +units=m +no_defs +type=crs",
+    "projjson": {
+     "$schema": "https://proj.org/schemas/v0.7/projjson.schema.json",
+     "base_crs": {
+      "coordinate_system": {
+       "axis": [
+        {
+         "abbreviation": "lon",
+         "direction": "east",
+         "name": "Longitude",
+         "unit": "degree"
+        },
+        {
+         "abbreviation": "lat",
+         "direction": "north",
+         "name": "Latitude",
+         "unit": "degree"
+        }
+       ],
+       "subtype": "ellipsoidal"
+      },
+      "datum": {
+       "ellipsoid": {
+        "id": {
+         "authority": "EPSG",
+         "code": 7030
+        },
+        "inverse_flattening": 298.257223563,
+        "name": "WGS 84",
+        "semi_major_axis": 6378137
+       },
+       "name": "Unknown based on WGS 84 ellipsoid",
+       "type": "GeodeticReferenceFrame"
+      },
+      "name": "unknown",
+      "type": "GeographicCRS"
+     },
+     "conversion": {
+      "method": {
+       "id": {
+        "authority": "EPSG",
+        "code": 1028
+       },
+       "name": "Equidistant Cylindrical"
+      },
+      "name": "unnamed",
+      "parameters": [
+       {
+        "id": {
+         "authority": "EPSG",
+         "code": 8801
+        },
+        "name": "Latitude of natural origin",
+        "unit": "degree",
+        "value": 5
+       },
+       {
+        "id": {
+         "authority": "EPSG",
+         "code": 8802
+        },
+        "name": "Longitude of natural origin",
+        "unit": "degree",
+        "value": 10
+       },
+       {
+        "id": {
+         "authority": "EPSG",
+         "code": 8823
+        },
+        "name": "Latitude of 1st standard parallel",
+        "unit": "degree",
+        "value": 30
+       },
+       {
+        "id": {
+         "authority": "EPSG",
+         "code": 8806
+        },
+        "name": "False easting",
+        "unit": "metre",
+        "value": 0
+       },
+       {
+        "id": {
+         "authority": "EPSG",
+         "code": 8807
+        },
+        "name": "False northing",
+        "unit": "metre",
+        "value": 0
+       }
+      ]
+     },
+     "coordinate_system": {
+      "axis": [
+       {
+        "abbreviation": "",
+        "direction": "east",
+        "name": "Easting",
+        "unit": "metre"
+       },
+       {
+        "abbreviation": "",
+        "direction": "north",
+        "name": "Northing",
+        "unit": "metre"
+       }
+      ],
+      "subtype": "Cartesian"
+     },
+     "name": "unknown",
+     "type": "ProjectedCRS"
+    },
+    "roundtrip": true
+   },
+   "geokeys": {
+    "GTCitation": "unknown",
+    "GTModelType": 1,
+    "GTRasterType": 1,
+    "GeogAngularUnits": 9102,
+    "GeogCitation": "GCS Name = unknown|Datum = Unknown based on WGS 84 ellipsoid|Primem = Greenwich|",
+    "GeogEllipsoid": 7030,
+    "GeogGeodeticDatum": 32767,
+    "GeogInvFlattening": 298.257223563,
+    "GeogPrimeMeridianLong": 0.0,
+    "GeogSemiMajorAxis": 6378137.0,
+    "GeographicType": 32767,
+    "ProjCenterLat": 5.0,
+    "ProjCenterLong": 10.0,
+    "ProjCoordTrans": 17,
+    "ProjFalseEasting": 0.0,
+    "ProjFalseNorthing": 0.0,
+    "ProjLinearUnits": 9001,
+    "ProjStdParallel1": 30.0,
+    "ProjectedCSType": 32767,
+    "Projection": 32767
+   },
+   "input": {
+    "kind": "proj",
+    "value": "+proj=eqc +lat_ts=30 +lat_0=5 +lon_0=10 +ellps=WGS84"
+   },
+   "name": "eqc_lat0",
+   "note": "Pins what PROJ does with ProjNatOriginLat for Equidistant Cylindrical",
+   "point": {
+    "lat": 13.0,
+    "lon": 13.0,
+    "x": 289458.84075268963,
+    "y": 884825.355435672
+   },
+   "tags": [
+    "ct:17"
+   ]
+  },
+  {
+   "core": {
+    "angular_unit_deg": 1.0,
+    "axes": [
+     "east",
+     "north"
+    ],
+    "ellipsoid": {
+     "a": 6378137.0,
+     "b": null,
+     "rf": 298.257223563
+    },
+    "linear_unit_m": 1.0,
+    "method": {
      "epsg": 1119,
      "name": "Equidistant Conic"
     },

@@ -402,8 +402,7 @@
               "proj": "k_0",
               "kind": "scale",
               "keys": [
-                "ProjScaleAtNatOrigin",
-                "ProjScaleAtCenter"
+                "ProjScaleAtNatOrigin"
               ],
               "default": 1.0
             },
@@ -432,7 +431,8 @@
               "default": 0.0
             }
           ],
-          "gdal": "gt_wkt_srs.cpp#L1463-L1465"
+          "gdal": "gt_wkt_srs.cpp#L1463-L1465",
+          "note": "libgeotiff reads ProjScaleAtNatOrigin only for this code (L1739-L1747), not ProjScaleAtCenter"
         }
       ]
     },
@@ -1035,7 +1035,7 @@
             }
           ],
           "gdal": "gt_wkt_srs.cpp#L1559-L1562 (SetPS); variant chosen by PROJ io.cpp#L4231-L4279",
-          "note": "Scale exactly 1 selects variant B even at the pole; PROJ string also needs +lat_0=+-90"
+          "note": "Scale exactly 1 selects variant B even at the pole; PROJ string also needs +lat_0=+-90. Axes are ['south', 'south'] when the resolved latitude is positive and ['north', 'north'] when negative (PROJ's WKT1 Polar_Stereographic import); the axes field cannot express a sign rule"
         },
         {
           "when": {
@@ -1111,7 +1111,8 @@
               "default": 0.0
             }
           ],
-          "gdal": "gt_wkt_srs.cpp#L1559-L1562 (SetPS); variant chosen by PROJ io.cpp#L4231-L4279"
+          "gdal": "gt_wkt_srs.cpp#L1559-L1562 (SetPS); variant chosen by PROJ io.cpp#L4231-L4279",
+          "note": "Axes are ['south', 'south'] when the resolved latitude is positive and ['north', 'north'] when negative (PROJ's WKT1 Polar_Stereographic import); the axes field cannot express a sign rule"
         },
         {
           "unrepresentable": "Polar_Stereographic off the pole with scale != 1: PROJ keeps a non-EPSG WKT1 method it cannot operate on (io.cpp#L4231-L4279)"

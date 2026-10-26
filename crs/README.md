@@ -27,7 +27,7 @@ pixi run generate-crs                  # rewrites fixtures/ and manifest.json
 pixi run generate-crs --refresh-epsg   # also refetches epsg/*.json
 ```
 
-The generator is deterministic for the pinned GDAL/PROJ versions in `pixi.lock`; `scripts/check.sh` runs it in CI and fails on any diff. It only touches the network for an `epsg/<code>.json` that is missing. `manifest.json` records the GDAL, PROJ, rasterio and pyproj versions under `generator`.
+The generator is deterministic for the pinned GDAL/PROJ versions in `pixi.lock`; `scripts/check.sh` runs it in CI and fails on any diff. It only touches the network for an `epsg/<code>.json` that is missing. `manifest.json` records the GDAL, PROJ, rasterio and pyproj versions under `generator`; those are the oracle. The line citations in the CT table refer to the versions named in its `sources`, which may be slightly older.
 
 ## Cases
 
@@ -72,10 +72,14 @@ The case list covers every `ProjCoordTransGeoKey` code GDAL can write, each dist
   "prime_meridian_deg": 0.0,
   "angular_unit_deg": 1.0,                       // size of the geographic CS unit in degrees (0.9 for grads)
   "linear_unit_m": 0.3048006096012192,           // size of the projected CS unit in metres; null for geographic
-  "axes": ["east", "north"],                     // axis directions in order; ["west", "south"] for TM South Orientated
+  "axes": ["east", "north"],                     // axis directions in order, see below
   "towgs84": null                                // 3 or 7 numbers for BoundCRS rows
 }
 ```
+
+`axes` is `["east", "north"]` for most projected rows, `["west", "south"]` for Transverse Mercator (South Orientated), and for Polar Stereographic (CT 15, every variant) `["south", "south"]` when the resolved latitude is positive and `["north", "north"]` when it is negative: that is how PROJ imports WKT1 `Polar_Stereographic` without axis nodes, and GDAL's reading carries it. Geographic rows are `["north", "east"]` (latitude first). EPSG-coded rows carry whatever the registry says (`epsg_2065` Krovak is `["south", "west"]`).
+
+**Comparing `core`.** Match parameters by EPSG code, or by name when `epsg` is null. A table parameter missing from `core.parameters` means PROJ dropped a zero-valued parameter (`Latitude of natural origin` for Equidistant Cylindrical, see the CT 17 note); treat it as 0. Compare numbers with a tolerance: values such as `299999.9999999998` (feet converted to metres) and `46.800000000000104` (grads converted to degrees) are the result of unit conversion, so use a relative tolerance of about `1e-9` with an absolute floor of `1e-6`.
 
 **`point`.** `(lon, lat)` is projected with a transformer from a degree, Greenwich longlat CRS on the row's own ellipsoid to the read-back CRS, so no datum shift is involved. For geographic rows the transform still runs, so `(x, y)` is in the row's own angular unit and prime meridian. A reader checks its CRS by projecting the same `(lon, lat)` the same way and comparing to `(x, y)`; it is a cheap smoke test, not a substitute for the CRS comparison.
 
@@ -101,7 +105,7 @@ The case list covers every `ProjCoordTransGeoKey` code GDAL can write, each dist
         {
           "when": {...},                       // see below; omitted on the default variant
           "method": {"name": "Transverse Mercator", "epsg": 9807, "proj": "tmerc"},
-          "axes": ["east", "north"],           // optional; only CT 27 differs (["west", "south"])
+          "axes": ["east", "north"],           // optional; CT 27 is ["west", "south"]; CT 15 is sign-dependent, see below
           "parameters": [
             {
               "name": "Latitude of natural origin",   // PROJ/EPSG parameter name
@@ -135,7 +139,8 @@ How to read a method: resolve the union of all its variants' parameters (they sh
 The three rules in use:
 
 - **CT 7 Mercator**: `ProjStdParallel1` present selects variant B (EPSG 9805), otherwise variant A (9804).
-- **CT 15 Polar Stereographic**: PROJ decides from values (`io.cpp`, WKT1 `Polar_Stereographic` import). Scale factor exactly 1 selects variant B (9829) with the latitude as the standard parallel, even at the pole; otherwise a latitude at a pole selects variant A (9810); otherwise PROJ keeps a non-EPSG method it cannot operate on, which is the `unrepresentable` variant.
+- **CT 15 Polar Stereographic**: PROJ decides from values (`io.cpp`, WKT1 `Polar_Stereographic` import). Scale factor exactly 1 selects variant B (9829) with the latitude as the standard parallel, even at the pole; otherwise a latitude at a pole selects variant A (9810); otherwise PROJ keeps a non-EPSG method it cannot operate on, which is the `unrepresentable` variant. Whichever variant applies, the projected axes are `["south", "south"]` for a positive latitude and `["north", "north"]` for a negative one (the table's `axes` field cannot express a sign rule, so this is stated here and pinned by a test).
+- **CT 7 Mercator** reads its scale factor from `ProjScaleAtNatOrigin` only; the `ProjScaleAtCenter` fallback that Transverse Mercator, LCC 1SP and Oblique Stereographic have does not apply (`geo_normalize.c#L1739-L1747`).
 - **CT 3, 9815 and 4** are separate codes for Hotine Oblique Mercator variant A, variant B and Laborde; they share keys but name their parameters differently. The rectified grid angle defaults to 90.
 
 Codes 2, 5 and 6 (Modified Alaska, Rosenmund, spherical oblique Mercator) have no read case in GDAL and no fixture.

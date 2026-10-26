@@ -103,3 +103,28 @@ def test_table_method_names_match_manifest():
             c["name"],
             c["core"]["method"]["name"],
         )
+
+
+def test_mercator_variant_a_scale_reads_only_nat_origin():
+    """libgeotiff reads ProjScaleAtNatOrigin only for CT_Mercator (geo_normalize.c#L1739)."""
+    variant_a = TABLE["methods"]["7"]["variants"][1]
+    scale = next(p for p in variant_a["parameters"] if p["epsg"] == 8805)
+    assert scale["keys"] == ["ProjScaleAtNatOrigin"]
+
+
+def test_axes_match_table_except_polar_stereographic():
+    """PROJ sets both polar axes south (north pole) or north (south pole) for CT 15."""
+    for c in MANIFEST["cases"]:
+        ct = c["geokeys"].get("ProjCoordTrans")
+        if ct is None or c["core"] is None:
+            continue
+        variants = TABLE["methods"][str(ct)]["variants"]
+        table_axes = next(
+            v.get("axes", ["east", "north"]) for v in variants if "method" in v
+        )
+        if ct == 15:
+            assert c["core"]["axes"] in (["south", "south"], ["north", "north"]), c[
+                "name"
+            ]
+        else:
+            assert c["core"]["axes"] == table_axes, c["name"]

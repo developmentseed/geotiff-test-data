@@ -8,7 +8,11 @@ TABLE = json.loads((CRS_DIR / "geotiff-ct-methods.json").read_text())
 MANIFEST = json.loads((CRS_DIR / "manifest.json").read_text())
 KINDS = {"angular", "linear", "scale", "azimuth"}
 RULE_KEYS = {"present", "abs_value", "value", "any", "all"}
-SCALE_AND_AZIMUTH_KEYS = ["ProjScaleAtNatOrigin", "ProjScaleAtCenter", "ProjAzimuthAngle"]
+SCALE_AND_AZIMUTH_KEYS = [
+    "ProjScaleAtNatOrigin",
+    "ProjScaleAtCenter",
+    "ProjAzimuthAngle",
+]
 
 
 def _rule_ok(rule: dict) -> bool:
@@ -22,12 +26,18 @@ def _rule_ok(rule: dict) -> bool:
 
 def test_table_covers_every_ct_code():
     assert set(TABLE["methods"]) == {str(c) for c in range(1, 29)} | {"9815"}
-    assert {c for c, m in TABLE["methods"].items() if "unsupported" in m} == {"2", "5", "6"}
+    assert {c for c, m in TABLE["methods"].items() if "unsupported" in m} == {
+        "2",
+        "5",
+        "6",
+    }
 
 
 def test_variants_are_well_formed():
     allowed_keys = (
-        TABLE["units"]["angular_keys"] + TABLE["units"]["linear_keys"] + SCALE_AND_AZIMUTH_KEYS
+        TABLE["units"]["angular_keys"]
+        + TABLE["units"]["linear_keys"]
+        + SCALE_AND_AZIMUTH_KEYS
     )
     for method in TABLE["methods"].values():
         if "unsupported" in method:
@@ -46,12 +56,17 @@ def test_variants_are_well_formed():
                 assert set(p) >= {"name", "epsg", "proj", "kind", "keys", "default"}
                 assert p["kind"] in KINDS
                 assert p["keys"] and all(k in allowed_keys for k in p["keys"])
-            assert v.get("axes", ["east", "north"]) in (["east", "north"], ["west", "south"])
+            assert v.get("axes", ["east", "north"]) in (
+                ["east", "north"],
+                ["west", "south"],
+            )
             assert "gdal" in v
 
 
 def test_variant_rules():
-    assert TABLE["methods"]["7"]["variants"][0]["when"] == {"present": "ProjStdParallel1"}
+    assert TABLE["methods"]["7"]["variants"][0]["when"] == {
+        "present": "ProjStdParallel1"
+    }
     assert TABLE["methods"]["15"]["variants"][0]["when"] == {
         "value": {"param": "Scale factor at natural origin", "equals": 1}
     }
@@ -84,4 +99,7 @@ def test_table_method_names_match_manifest():
             continue
         variants = TABLE["methods"][str(ct)]["variants"]
         names = {v["method"]["name"] for v in variants if "method" in v}
-        assert c["core"]["method"]["name"] in names, (c["name"], c["core"]["method"]["name"])
+        assert c["core"]["method"]["name"] in names, (
+            c["name"],
+            c["core"]["method"]["name"],
+        )

@@ -156,7 +156,9 @@ def encode_geokeys(keys: dict[str, GeoKeyValue]) -> list[tuple]:
             doubles.extend(float(v) for v in value)
         elif isinstance(value, str):
             text = value + _ASCII_TERMINATOR
-            entries.append((key_id, GEOKEY_ASCII_PARAMS_TAG, len(text), len(ascii_params)))
+            entries.append(
+                (key_id, GEOKEY_ASCII_PARAMS_TAG, len(text), len(ascii_params))
+            )
             ascii_params += text
         else:
             raise TypeError(f"Unsupported GeoKey value for {name}: {value!r}")
@@ -167,9 +169,17 @@ def encode_geokeys(keys: dict[str, GeoKeyValue]) -> list[tuple]:
 
     extratags = [(GEOKEY_DIRECTORY_TAG, _TIFF_SHORT, len(directory), directory, True)]
     if doubles:
-        extratags.append((GEOKEY_DOUBLE_PARAMS_TAG, _TIFF_DOUBLE, len(doubles), doubles, True))
+        extratags.append(
+            (GEOKEY_DOUBLE_PARAMS_TAG, _TIFF_DOUBLE, len(doubles), doubles, True)
+        )
     if ascii_params:
         extratags.append(
-            (GEOKEY_ASCII_PARAMS_TAG, _TIFF_ASCII, len(ascii_params), ascii_params, True)
+            (
+                GEOKEY_ASCII_PARAMS_TAG,
+                _TIFF_ASCII,
+                len(ascii_params),
+                ascii_params,
+                True,
+            )
         )
     return extratags

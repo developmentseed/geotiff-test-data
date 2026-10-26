@@ -121,7 +121,7 @@ The case list covers every `ProjCoordTransGeoKey` code GDAL can write, each dist
 }
 ```
 
-How to read a method: resolve every parameter of the first variant by taking the first key in `keys` that is present in the directory (a value of `0` counts as present), else `default`; scale `angular` values by the angular unit factor and `linear` values by the linear unit factor, and leave `scale` and `azimuth` untouched (libgeotiff does not convert `ProjAzimuthAngle`); then evaluate each variant's `when` in order.
+How to read a method: resolve the union of all its variants' parameters (they share raw inputs; a rule may name a parameter that only another variant lists) by taking the first key in `keys` that is present in the directory (a value of `0` counts as present), else `default`; scale `angular` values by the angular unit factor and `linear` values by the linear unit factor, and leave `scale` and `azimuth` untouched (libgeotiff does not convert `ProjAzimuthAngle`); then evaluate each variant's `when` in order and build the first that matches.
 
 `when` grammar:
 

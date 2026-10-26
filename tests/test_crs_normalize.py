@@ -70,7 +70,9 @@ def test_core_of_sphere_and_geographic():
 
 def test_core_of_south_orientated_axes():
     core = core_of(
-        CRS.from_proj4("+proj=tmerc +lat_0=0 +lon_0=19 +k=1 +x_0=0 +y_0=0 +axis=wsu +ellps=WGS84")
+        CRS.from_proj4(
+            "+proj=tmerc +lat_0=0 +lon_0=19 +k=1 +x_0=0 +y_0=0 +axis=wsu +ellps=WGS84"
+        )
     )
     assert core["axes"] == ["west", "south"]
 
@@ -84,11 +86,13 @@ def test_point_for():
 
 
 def test_project_point():
-    assert project_point(CRS.from_epsg(32633), 15.0, 0.0) == pytest.approx((500000.0, 0.0))
-    # A grads geographic CRS: degrees in, grads out.
-    assert project_point(CRS.from_wkt(GRAD_WKT).geodetic_crs, 3.0, 54.8) == pytest.approx(
-        (3.3333333333, 60.8888888889)
+    assert project_point(CRS.from_epsg(32633), 15.0, 0.0) == pytest.approx(
+        (500000.0, 0.0)
     )
+    # A grads geographic CRS: degrees in, grads out.
+    assert project_point(
+        CRS.from_wkt(GRAD_WKT).geodetic_crs, 3.0, 54.8
+    ) == pytest.approx((3.3333333333, 60.8888888889))
 
 
 def test_ellipsoid_longlat_sphere():

@@ -39,17 +39,20 @@ def write_case(case: Case, path: Path) -> None:
 
     assert isinstance(case.value, str)
     crs = CRS.from_user_input(case.value)
-    with rasterio.Env(GDAL_PAM_ENABLED="NO"), rasterio.open(
-        path,
-        "w",
-        driver="GTiff",
-        width=_SIZE,
-        height=_SIZE,
-        count=1,
-        dtype="uint8",
-        crs=crs,
-        transform=from_origin(0, 0, 10, 10),
-    ) as dst:
+    with (
+        rasterio.Env(GDAL_PAM_ENABLED="NO"),
+        rasterio.open(
+            path,
+            "w",
+            driver="GTiff",
+            width=_SIZE,
+            height=_SIZE,
+            count=1,
+            dtype="uint8",
+            crs=crs,
+            transform=from_origin(0, 0, 10, 10),
+        ) as dst,
+    ):
         dst.write(data, 1)
 
 
@@ -116,7 +119,9 @@ def fetch_epsg_json(code: int, epsg_dir: Path, *, refresh: bool = False) -> Path
     # epsg.io answers 403 to urllib's default User-Agent.
     request = urllib.request.Request(
         EPSG_IO_URL.format(code=code),
-        headers={"User-Agent": "geotiff-test-data corpus generator (+https://github.com/developmentseed/geotiff-test-data)"},
+        headers={
+            "User-Agent": "geotiff-test-data corpus generator (+https://github.com/developmentseed/geotiff-test-data)"
+        },
     )
     with urllib.request.urlopen(request, timeout=60) as response:  # noqa: S310
         path.write_bytes(response.read())
@@ -139,7 +144,11 @@ def generate(crs_dir: Path, *, refresh_epsg: bool = False) -> dict:
     for code in EPSG_CODES:
         fetch_epsg_json(code, epsg_dir, refresh=refresh_epsg)
     for case in CASES:
-        if case.kind == "epsg" and isinstance(case.value, str) and not case.value.startswith("EPSG:"):
+        if (
+            case.kind == "epsg"
+            and isinstance(case.value, str)
+            and not case.value.startswith("EPSG:")
+        ):
             fetch_epsg_json(_authority_code(case.value), epsg_dir, refresh=refresh_epsg)
 
     manifest = {
@@ -162,7 +171,9 @@ def generate(crs_dir: Path, *, refresh_epsg: bool = False) -> dict:
 def main() -> None:
     """CLI entry point."""
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--refresh-epsg", action="store_true", help="refetch cached epsg.io JSON")
+    parser.add_argument(
+        "--refresh-epsg", action="store_true", help="refetch cached epsg.io JSON"
+    )
     args = parser.parse_args()
     generate(Path(__file__).parent, refresh_epsg=args.refresh_epsg)
 

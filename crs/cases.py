@@ -122,8 +122,15 @@ CASES: list[Case] = [
         "+proj=labrd +lat_0=-18.9 +lon_0=46.43722917 +azi=18.9 +k=0.9995 +x_0=400000 +y_0=800000 +ellps=intl",
         tags=("ct:4",),
     ),
-    Case("merc_1sp", "proj", "+proj=merc +lon_0=10 +k=0.98 +ellps=WGS84", tags=("ct:7",)),
-    Case("merc_2sp", "proj", "+proj=merc +lat_ts=30 +lon_0=10 +ellps=WGS84", tags=("ct:7",)),
+    Case(
+        "merc_1sp", "proj", "+proj=merc +lon_0=10 +k=0.98 +ellps=WGS84", tags=("ct:7",)
+    ),
+    Case(
+        "merc_2sp",
+        "proj",
+        "+proj=merc +lat_ts=30 +lon_0=10 +ellps=WGS84",
+        tags=("ct:7",),
+    ),
     Case(
         "lcc_2sp",
         "proj",
@@ -143,7 +150,9 @@ CASES: list[Case] = [
         "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +ellps=WGS84",
         tags=("ct:11",),
     ),
-    Case("aeqd", "proj", "+proj=aeqd +lat_0=40 +lon_0=-100 +ellps=WGS84", tags=("ct:12",)),
+    Case(
+        "aeqd", "proj", "+proj=aeqd +lat_0=40 +lon_0=-100 +ellps=WGS84", tags=("ct:12",)
+    ),
     Case(
         "eqdc",
         "proj",
@@ -156,10 +165,30 @@ CASES: list[Case] = [
         "+proj=stere +lat_0=46.5 +lon_0=-66.5 +k=0.999912 +ellps=WGS84",
         tags=("ct:14",),
     ),
-    Case("stere_polar_a", "proj", "+proj=stere +lat_0=90 +k=0.994 +lon_0=0 +ellps=WGS84", tags=("ct:15",)),
-    Case("stere_polar_b", "proj", "+proj=stere +lat_0=90 +lat_ts=71 +lon_0=-45 +ellps=WGS84", tags=("ct:15",)),
-    Case("stere_south_a", "proj", "+proj=stere +lat_0=-90 +k=0.994 +lon_0=0 +ellps=WGS84", tags=("ct:15",)),
-    Case("stere_south_b", "proj", "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +ellps=WGS84", tags=("ct:15",)),
+    Case(
+        "stere_polar_a",
+        "proj",
+        "+proj=stere +lat_0=90 +k=0.994 +lon_0=0 +ellps=WGS84",
+        tags=("ct:15",),
+    ),
+    Case(
+        "stere_polar_b",
+        "proj",
+        "+proj=stere +lat_0=90 +lat_ts=71 +lon_0=-45 +ellps=WGS84",
+        tags=("ct:15",),
+    ),
+    Case(
+        "stere_south_a",
+        "proj",
+        "+proj=stere +lat_0=-90 +k=0.994 +lon_0=0 +ellps=WGS84",
+        tags=("ct:15",),
+    ),
+    Case(
+        "stere_south_b",
+        "proj",
+        "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +ellps=WGS84",
+        tags=("ct:15",),
+    ),
     Case(
         "stere_polar_scaled_wkt",
         "wkt",
@@ -191,13 +220,29 @@ CASES: list[Case] = [
         note="Pins what PROJ does with ProjNatOriginLat for Equidistant Cylindrical",
         tags=("ct:17",),
     ),
-    Case("cass", "proj", "+proj=cass +lat_0=10 +lon_0=-61 +ellps=WGS84", tags=("ct:18",)),
-    Case("gnom", "proj", "+proj=gnom +lat_0=40 +lon_0=-100 +ellps=WGS84", tags=("ct:19",)),
+    Case(
+        "cass", "proj", "+proj=cass +lat_0=10 +lon_0=-61 +ellps=WGS84", tags=("ct:18",)
+    ),
+    Case(
+        "gnom", "proj", "+proj=gnom +lat_0=40 +lon_0=-100 +ellps=WGS84", tags=("ct:19",)
+    ),
     Case("mill", "proj", "+proj=mill +lon_0=0 +ellps=WGS84", tags=("ct:20",)),
-    Case("ortho", "proj", "+proj=ortho +lat_0=40 +lon_0=-100 +ellps=WGS84", tags=("ct:21",)),
-    Case("poly", "proj", "+proj=poly +lat_0=0 +lon_0=-54 +ellps=WGS84", tags=("ct:22",)),
+    Case(
+        "ortho",
+        "proj",
+        "+proj=ortho +lat_0=40 +lon_0=-100 +ellps=WGS84",
+        tags=("ct:21",),
+    ),
+    Case(
+        "poly", "proj", "+proj=poly +lat_0=0 +lon_0=-54 +ellps=WGS84", tags=("ct:22",)
+    ),
     Case("robin", "proj", "+proj=robin +lon_0=0 +ellps=WGS84", tags=("ct:23",)),
-    Case("sinu_sphere", "proj", "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +R=6371007.181", tags=("ct:24", "sphere")),
+    Case(
+        "sinu_sphere",
+        "proj",
+        "+proj=sinu +lon_0=0 +x_0=0 +y_0=0 +R=6371007.181",
+        tags=("ct:24", "sphere"),
+    ),
     Case("vandg", "proj", "+proj=vandg +lon_0=0 +ellps=WGS84", tags=("ct:25",)),
     Case(
         "nzmg",
@@ -227,9 +272,24 @@ CASES: list[Case] = [
         "+proj=lcc +lat_1=41.03333 +lat_2=40.66667 +lat_0=40.16667 +lon_0=-74 +x_0=300000 +y_0=0 +ellps=GRS80 +units=us-ft",
         tags=("ct:8", "linear:9003"),
     ),
-    Case("tmerc_ft", "proj", f"{_TMERC} +ellps=WGS84 +units=ft", tags=("ct:1", "linear:9002")),
-    Case("lcc_1sp_grad_wkt", "wkt", _lcc_1sp(_GEOG_CLRK80IGN_GRAD, 52), tags=("ct:9", "angular:9105")),
-    Case("geog_grad_wkt", "wkt", _GEOG_CLRK80IGN_GRAD, tags=("geographic", "angular:9105")),
+    Case(
+        "tmerc_ft",
+        "proj",
+        f"{_TMERC} +ellps=WGS84 +units=ft",
+        tags=("ct:1", "linear:9002"),
+    ),
+    Case(
+        "lcc_1sp_grad_wkt",
+        "wkt",
+        _lcc_1sp(_GEOG_CLRK80IGN_GRAD, 52),
+        tags=("ct:9", "angular:9105"),
+    ),
+    Case(
+        "geog_grad_wkt",
+        "wkt",
+        _GEOG_CLRK80IGN_GRAD,
+        tags=("geographic", "angular:9105"),
+    ),
     Case(
         "lcc_1sp_paris_grad",
         "proj",
@@ -247,8 +307,18 @@ CASES: list[Case] = [
         "+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +datum=NAD27",
         tags=("ct:11", "datum:epsg"),
     ),
-    Case("tmerc_datum_wgs84", "proj", f"{_TMERC} +datum=WGS84", tags=("ct:1", "datum:epsg")),
-    Case("geog_sphere", "proj", "+proj=longlat +R=6371007.181", tags=("geographic", "sphere")),
+    Case(
+        "tmerc_datum_wgs84",
+        "proj",
+        f"{_TMERC} +datum=WGS84",
+        tags=("ct:1", "datum:epsg"),
+    ),
+    Case(
+        "geog_sphere",
+        "proj",
+        "+proj=longlat +R=6371007.181",
+        tags=("geographic", "sphere"),
+    ),
     Case(
         "tmerc_towgs84",
         "proj",
@@ -262,7 +332,12 @@ CASES: list[Case] = [
         _lcc_1sp(_GEOG_CLRK80IGN_PARIS_DEG, 46.8),
         tags=("ct:9", "pm:paris"),
     ),
-    Case("lcc_1sp_pm_user", "proj", f"{_LCC_1SP} +lon_0=0 +pm=2.5", tags=("ct:9", "pm:user")),
+    Case(
+        "lcc_1sp_pm_user",
+        "proj",
+        f"{_LCC_1SP} +lon_0=0 +pm=2.5",
+        tags=("ct:9", "pm:user"),
+    ),
     Case(
         "lcc_1sp_pm_epsg_tifffile",
         "geokeys",
@@ -279,8 +354,17 @@ CASES: list[Case] = [
         tags=("projection:16033",),
     ),
     # Coded and citation forms.
-    *[Case(f"epsg_{code}", "epsg", f"EPSG:{code}", tags=("epsg",)) for code in EPSG_CODES],
-    Case("moll", "proj", "+proj=moll +lon_0=0 +ellps=WGS84", note="ESRI PE String citation", tags=("pe-string",)),
+    *[
+        Case(f"epsg_{code}", "epsg", f"EPSG:{code}", tags=("epsg",))
+        for code in EPSG_CODES
+    ],
+    Case(
+        "moll",
+        "proj",
+        "+proj=moll +lon_0=0 +ellps=WGS84",
+        note="ESRI PE String citation",
+        tags=("pe-string",),
+    ),
     Case(
         "krovak",
         "proj",
@@ -288,7 +372,13 @@ CASES: list[Case] = [
         note="ESRI PE String citation",
         tags=("pe-string",),
     ),
-    Case("esri_54009", "epsg", "ESRI:54009", note="ESRI PE String citation with GeogGeodeticDatum = 6326", tags=("pe-string",)),
+    Case(
+        "esri_54009",
+        "epsg",
+        "ESRI:54009",
+        note="ESRI PE String citation with GeogGeodeticDatum = 6326",
+        tags=("pe-string",),
+    ),
     Case(
         "eqearth",
         "proj",

@@ -73,15 +73,27 @@ def core_of(crs: CRS) -> dict:
             "epsg": _parameter_epsg(conversion["method"]),
         }
         parameters = [
-            {"epsg": _parameter_epsg(p), "name": p["name"], "value": _parameter_value(p)}
+            {
+                "epsg": _parameter_epsg(p),
+                "name": p["name"],
+                "value": _parameter_value(p),
+            }
             for p in conversion.get("parameters", [])
         ]
 
     ellipsoid = inner.ellipsoid
     if ellipsoid.inverse_flattening:
-        ellipsoid_core = {"a": ellipsoid.semi_major_metre, "rf": ellipsoid.inverse_flattening, "b": None}
+        ellipsoid_core = {
+            "a": ellipsoid.semi_major_metre,
+            "rf": ellipsoid.inverse_flattening,
+            "b": None,
+        }
     else:
-        ellipsoid_core = {"a": ellipsoid.semi_major_metre, "rf": None, "b": ellipsoid.semi_minor_metre}
+        ellipsoid_core = {
+            "a": ellipsoid.semi_major_metre,
+            "rf": None,
+            "b": ellipsoid.semi_minor_metre,
+        }
 
     prime_meridian = inner.prime_meridian
     geodetic = inner.geodetic_crs if inner.is_projected else inner
@@ -90,9 +102,13 @@ def core_of(crs: CRS) -> dict:
         "method": method,
         "parameters": parameters,
         "ellipsoid": ellipsoid_core,
-        "prime_meridian_deg": prime_meridian.longitude * prime_meridian.unit_conversion_factor * DEG_PER_RAD,
+        "prime_meridian_deg": prime_meridian.longitude
+        * prime_meridian.unit_conversion_factor
+        * DEG_PER_RAD,
         "angular_unit_deg": geodetic.axis_info[0].unit_conversion_factor * DEG_PER_RAD,
-        "linear_unit_m": inner.axis_info[0].unit_conversion_factor if inner.is_projected else None,
+        "linear_unit_m": inner.axis_info[0].unit_conversion_factor
+        if inner.is_projected
+        else None,
         "axes": [axis.direction for axis in inner.axis_info],
         "towgs84": list(crs.coordinate_operation.towgs84) if crs.is_bound else None,
     }

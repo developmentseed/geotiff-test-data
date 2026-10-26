@@ -41,7 +41,9 @@ def test_manifest_row_proj_case(tmp_path: Path):
 
 
 def test_manifest_row_keyless_case(tmp_path: Path):
-    case = Case("eqearth", "proj", "+proj=eqearth +lon_0=0 +ellps=WGS84", note="no keys")
+    case = Case(
+        "eqearth", "proj", "+proj=eqearth +lon_0=0 +ellps=WGS84", note="no keys"
+    )
     path = tmp_path / "eqearth.tif"
     write_case(case, path)
     row = manifest_row(case, path, tmp_path)

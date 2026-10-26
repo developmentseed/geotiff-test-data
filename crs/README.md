@@ -4,7 +4,7 @@ GeoTIFF files describe their coordinate reference system with GeoKeys. A reader 
 
 GDAL/PROJ is the oracle. For every case, GDAL writes the file and then reads it back; the manifest records both the raw GeoKeys GDAL wrote and the CRS GDAL/PROJ reads from them. A reader is conformant when, for every tested fixture, the CRS it builds equals the one in the manifest.
 
-Consumers today: [async-geotiff](https://github.com/developmentseed/async-geotiff) (Python, pyproj) and the GeoTIFF package in [deck.gl-raster](https://github.com/developmentseed/deck.gl-raster) (TypeScript, no PROJ database). The design, including the decisions behind the manifest and table schemas and the findings about GDAL and PROJ that shaped them, is in [DESIGN.md](DESIGN.md); its later sections describe the async-geotiff builder that consumes this corpus.
+Consumers today: [async-geotiff](https://github.com/developmentseed/async-geotiff) (Python, pyproj) and the GeoTIFF package in [deck.gl-raster](https://github.com/developmentseed/deck.gl-raster) (TypeScript, no PROJ database). The design, including the decisions behind the manifest and table schemas and the findings about GDAL and PROJ that shaped them, is in [dev-docs/specs/2026-10-26-geokey-crs-conformance-design.md](../dev-docs/specs/2026-10-26-geokey-crs-conformance-design.md); its later sections describe the async-geotiff builder that consumes this corpus.
 
 ## Layout
 

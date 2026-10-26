@@ -95,10 +95,12 @@ def decode_geokeys(path: Path) -> dict[str, GeoKeyValue]:
     SHORT values come back as ``int``, a single DOUBLE as ``float``, several
     DOUBLEs as ``list[float]``, and ASCII values as ``str`` with the one
     trailing ``|`` terminator removed. Ids outside :data:`GEOKEY_IDS` are
-    keyed ``unknown_<id>``.
+    keyed ``unknown_<id>``. A file with no GeoKey directory gives ``{}``.
     """
     with tifffile.TiffFile(path) as tif:
         tags = tif.pages[0].tags
+        if GEOKEY_DIRECTORY_TAG not in tags:
+            return {}
         directory = list(tags[GEOKEY_DIRECTORY_TAG].value)
         doubles = (
             list(tags[GEOKEY_DOUBLE_PARAMS_TAG].value)

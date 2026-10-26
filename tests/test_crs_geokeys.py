@@ -62,6 +62,12 @@ def test_encode_decode_roundtrip(tmp_path: Path):
     assert decode_geokeys(path) == keys
 
 
+def test_decode_file_without_geokeys(tmp_path: Path):
+    path = tmp_path / "plain.tif"
+    tifffile.imwrite(path, np.zeros((8, 8), np.uint8))
+    assert decode_geokeys(path) == {}
+
+
 def test_decode_three_value_towgs84(tmp_path: Path):
     keys = {"GTModelType": 2, "GeogTOWGS84": [0.0, 0.0, 0.0]}
     path = tmp_path / "keys.tif"

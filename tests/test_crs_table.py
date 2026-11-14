@@ -63,6 +63,20 @@ def test_variants_are_well_formed():
             assert "gdal" in v
 
 
+def test_laborde_proj_keys():
+    """PROJ's labrd takes +lon_0 and +azi where omerc takes +lonc and +alpha."""
+    by_epsg = {
+        p["epsg"]: p["proj"] for p in TABLE["methods"]["4"]["variants"][0]["parameters"]
+    }
+    assert by_epsg[8812] == "lon_0"
+    assert by_epsg[8813] == "azi"
+    hom = {
+        p["epsg"]: p["proj"] for p in TABLE["methods"]["3"]["variants"][0]["parameters"]
+    }
+    assert hom[8812] == "lonc"
+    assert hom[8813] == "alpha"
+
+
 def test_variant_rules():
     assert TABLE["methods"]["7"]["variants"][0]["when"] == {
         "present": "ProjStdParallel1"
